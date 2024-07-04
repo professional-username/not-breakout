@@ -1,4 +1,4 @@
-import {useState, useEffect, useRef, useCallback, useMemo} from 'react'
+import {useState, useEffect} from 'react'
 import './App.css'
 
 
@@ -42,9 +42,9 @@ function useBalls(environment) {
         // and the edges of the environment
         const newBallVelocities = ballPositions.map(([x, y], index) => {
             let [vx, vy] = ballVelocities[index];
-            if (x < 0) vx = Math.abs(vx);
+            if (x < -environment.size) vx = Math.abs(vx);
             if (x > environment.size) vx = -Math.abs(vx);
-            if (y < 0) vy = Math.abs(vy);
+            if (y < -environment.size) vy = Math.abs(vy);
             if (y > environment.size) vy = -Math.abs(vy);
             return [vx, vy];
         })
@@ -52,26 +52,6 @@ function useBalls(environment) {
         setBallVelocities(newBallVelocities)
     }
     return [ballPositions, ballVelocities, updateBallPositions, updateBallVelocities];
-}
-
-function useBlock(position, id) {
-    const [block, setBlock] = useState({
-        active: true,
-        position: position,
-        id: id,
-    })
-
-    const setBlockActive = (active) => {
-        setBlock((prevBlock) => ({
-            ...prevBlock,
-            active,
-        }))
-    };
-
-    return {
-        ...block,
-        setBlockActive,
-    }
 }
 
 function useBlockEnvironment(environment) {
@@ -82,14 +62,18 @@ function useBlockEnvironment(environment) {
         const blockWidth = size / nBlocks;
         const blockHeight = size / nBlocks;
 
-        for (let row = 0; row < nBlocks; row++) {
-            for (let col = 0; col < nBlocks; col++) {
+        for (let row = 0; row <= nBlocks; row++) {
+            for (let col = 0; col <= nBlocks; col++) {
                 const position = {
-                    x: col * blockWidth,
-                    y: row * blockHeight,
+                    x: -size + col * blockWidth * 2,
+                    y: -size + row * blockHeight * 2,
                 };
                 const id = `${row}-${col}`
-                blocks.push(useBlock(position, id));
+                blocks.push({
+                    position: position,
+                    id: id,
+                    active: true,
+                });
             }
         }
         return blocks;
@@ -122,7 +106,6 @@ function Ball({ballPosition}) {
 function Block({...blockParams}) {
     return (
         <div className="block" style={{
-            background: "white",
             translate: `${blockParams.position.x}px ${blockParams.position.y}px`,
         }}/>
     )
@@ -139,7 +122,7 @@ function Game() {
             updateBallPositions();
             updateBallVelocities(blockEnvironment);
             updateBlockEnvironment(ballPositions);
-        }, 50);
+        }, 10);
         return () => clearInterval(interval);
     }, [ballPositions, ballVelocities, blockEnvironment, updateBallVelocities, updateBlockEnvironment]);
 
@@ -157,7 +140,7 @@ function Game() {
 function App() {
     return (
         <div className="App">
-            <h1>Bouncing Ball Game</h1>
+            <h1>Not Breakout</h1>
             <Game/>
         </div>
     )

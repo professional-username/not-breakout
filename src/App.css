@@ -20,9 +20,17 @@
     justify-content: center;
     align-items: center;
     background: black;
-    width: calc(200px*var(--play-area-scale));
-    height: calc(200px*var(--play-area-scale));
-    /*scale: var(--play-area-scale);*/
+    width: 200px;
+    height: 200px;
+}
+
+.balls {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 200px;
+    height: 200px;
 }
 
 .ball {
@@ -39,16 +47,13 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background: blue;
-    /*flex-wrap: wrap;*/
-    width: calc(200px*var(--play-area-scale));
-    height: calc(200px*var(--play-area-scale));
-    /*scale: var(--play-area-scale);*/
+    width: 200px;
+    height: 200px;
 }
 
 .block {
     position: absolute;
     width: 10px;
     height: 10px;
-    background: blue;
+    background: white;
 }
