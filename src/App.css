@@ -20,8 +20,8 @@
     justify-content: center;
     align-items: center;
     background: black;
-    width: 200px;
-    height: 200px;
+    /*width: 200px;*/
+    /*height: 200px;*/
 }
 
 .balls {
@@ -29,16 +29,14 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 200px;
-    height: 200px;
 }
 
 .ball {
     position: absolute;
     /*transform: scale(var(--play-area-scale));*/
     border-radius: 50%;
-    width: 20px;
-    height: 20px;
+    width: 12px;
+    height: 12px;
     background: red;
 }
 
@@ -47,13 +45,17 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 200px;
-    height: 200px;
 }
 
 .block {
     position: absolute;
-    width: 10px;
-    height: 10px;
+    /*background: white;*/
+}
+
+.block.active {
     background: white;
+}
+
+.block.inactive {
+    /*background: black;*/
 }
