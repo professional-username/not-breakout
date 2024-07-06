@@ -61,9 +61,30 @@ function useBalls(environment) {
                         if (dy > 0) vy = Math.abs(vy);
                         if (dy < 0) vy = -Math.abs(vy);
                     }
-
+                    return [vx, vy]
                 }
             });
+
+            // Check collision with balls
+            ballPositions.forEach((ballPosition, otherIndex) => {
+                if (index !== otherIndex) {
+                    // Reverse velocity on collision
+                    const dx = ballPosition[0] - x;
+                    const dy = ballPosition[1] - y;
+
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    if (distance <= 12) {
+                        const dxn = dx / distance;
+                        const dyn = dy / distance;
+                        const dotProduct = vx * dxn + vy * dyn;
+
+                        if (dotProduct > 0) {
+                            vx = vx - 2 * dotProduct * dxn;
+                            vy = vy - 2 * dotProduct * dyn;
+                        }
+                    }
+                }
+            })
 
             return [vx, vy];
         })
