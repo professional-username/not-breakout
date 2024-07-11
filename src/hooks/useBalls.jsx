@@ -1,93 +1,109 @@
 import {useState} from "react";
 import {isColliding} from "/src/utils/isColliding"
 
-export function useBalls(environment) {
+const setupBalls = (environment) => {
+    const {size, nBalls, ...props} = environment;
     const initialOffset = 0.1; // to prevent balls from bouncing on corners
+    const initialBalls = Array.from({length: nBalls}, (_, index) => ({
+        position: [
+            Math.floor(Math.random() * size * 2 - size) + initialOffset,
+            Math.floor(Math.random() * size * 2 - size) + initialOffset,
+        ],
+        velocity: [
+            Math.floor(Math.random() * 10) - 5,
+            Math.floor(Math.random() * 10) - 5,
+        ],
+        id: index,
+    }));
+    return initialBalls;
+}
 
-    const [balls, setBalls] = useState(() =>
-        Array.from({length: environment.nBalls}, () => ({
-            position: [
-                Math.floor(Math.random() * environment.size * 2 - environment.size) + initialOffset,
-                Math.floor(Math.random() * environment.size * 2 - environment.size) + initialOffset,
-            ],
-            velocity: [
-                Math.floor(Math.random() * 10) - 5,
-                Math.floor(Math.random() * 10) - 5,
-            ],
-        }))
-    );
+const computeBorderBounce = (ball, environment, ballVelocity) => {
+    // console.log(ball.position);
+    let [x, y] = ball.position;
+    let [vx, vy] = ballVelocity;
+    const size = environment.size;
+    // Compute the collision
+    if (x < -size) vx = Math.abs(vx);
+    if (x > size) vx = -Math.abs(vx);
+    if (y < -size) vy = Math.abs(vy);
+    if (y > size) vy = -Math.abs(vy);
+    // Return the resulting velocity
+    return [vx, vy];
+}
 
-    const updateBalls = (blockEnvironment) => {
-        // Update every ball position with every velocity
-        const ballsWithNewPositions = balls.map((ball, index) => {
-            let [x, y] = ball.position;
-            let [vx, vy] = ball.velocity;
+const computeBlockBounce = (ball, blocks, ballVelocity) => {
+    let [x, y] = ball.position;
+    let [vx, vy] = ballVelocity;
+    // Compute the collisions
+    blocks.forEach(block => {
+        if (block.active && isColliding(ball, block)) {
+            // Reverse velocity on collision
+            const dx = x - block.position.x;
+            const dy = y - block.position.y;
+            if (Math.abs(dx) > Math.abs(dy)) {
+                if (dx > 0) vx = Math.abs(vx);
+                if (dx < 0) vx = -Math.abs(vx);
+            } else {
+                if (dy > 0) vy = Math.abs(vy);
+                if (dy < 0) vy = -Math.abs(vy);
+            }
+        }
+    });
+    // Return the resulting velocity
+    return [vx, vy];
+}
+
+const computeBallBounce = (ball, allBalls, ballVelocity) => {
+    // Filter out the ball we're comparing
+    const otherBalls = allBalls.filter(({id}) => id !== ball.id);
+    // Check for collisions against all other balls
+    let [x, y] = ball.position;
+    let [vx, vy] = ballVelocity;
+    otherBalls.forEach((otherBall, index) => {
+        const dx = otherBall.position[0] - x;
+        const dy = otherBall.position[1] - y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+        if (distance <= 12) {
+            // Reverse velocity on collision
+            const dxn = dx / distance;
+            const dyn = dy / distance;
+            const dotProduct = vx * dxn + vy * dyn;
+
+            if (dotProduct > 0) {
+                vx = vx - 2 * dotProduct * dxn;
+                vy = vy - 2 * dotProduct * dyn;
+            }
+        }
+    })
+    return [vx, vy];
+}
+
+export function useBalls(environment) {
+    const [balls, setBalls] = useState(setupBalls(environment));
+
+    const updateBalls = (blocks) => {
+        const updatedBalls = balls.map((ball, index) => {
+            // Update the position
+            let updatedPosition = [
+                ball.position[0] + ball.velocity[0],
+                ball.position[1] + ball.velocity[1],
+            ]
+
+            // Update the velocity
+            let updatedVelocity = ball.velocity;
+            updatedVelocity = computeBorderBounce(ball, environment, updatedVelocity);
+            updatedVelocity = computeBlockBounce(ball, blocks, updatedVelocity);
+            updatedVelocity = computeBallBounce(ball, balls, updatedVelocity);
+
+            // Set and return
             return {
                 ...ball,
-                position: [x + vx, y + vy],
+                position: updatedPosition,
+                velocity: updatedVelocity
             };
         })
-
-        const ballsWithNewVelocities = ballsWithNewPositions.map((ball, index) => {
-            let [x, y] = ball.position;
-            let [vx, vy] = ball.velocity;
-
-
-            // Check for collision with world borders
-            if (x < -environment.size) vx = Math.abs(vx);
-            if (x > environment.size) vx = -Math.abs(vx);
-            if (y < -environment.size) vy = Math.abs(vy);
-            if (y > environment.size) vy = -Math.abs(vy);
-
-
-            // Check collision with blocks
-            blockEnvironment.forEach(block => {
-                if (block.active && isColliding(ball, block)) {
-                    // Reverse velocity on collision
-                    const dx = x - block.position.x;
-                    const dy = y - block.position.y;
-                    if (Math.abs(dx) > Math.abs(dy)) {
-                        if (dx > 0) vx = Math.abs(vx);
-                        if (dx < 0) vx = -Math.abs(vx);
-                    } else {
-                        if (dy > 0) vy = Math.abs(vy);
-                        if (dy < 0) vy = -Math.abs(vy);
-                    }
-                    return {
-                        ...ball,
-                        velocity: [vx, vy],
-                    }
-                }
-            });
-
-            // Check collision with balls
-            balls.forEach((otherBall, otherIndex) => {
-                if (index !== otherIndex) {
-                    // Reverse velocity on collision
-                    const dx = otherBall.position[0] - x;
-                    const dy = otherBall.position[1] - y;
-
-                    const distance = Math.sqrt(dx * dx + dy * dy);
-                    if (distance <= 12) {
-                        const dxn = dx / distance;
-                        const dyn = dy / distance;
-                        const dotProduct = vx * dxn + vy * dyn;
-
-                        if (dotProduct > 0) {
-                            vx = vx - 2 * dotProduct * dxn;
-                            vy = vy - 2 * dotProduct * dyn;
-                        }
-                    }
-                }
-            })
-
-            return {
-                ...ball,
-                velocity: [vx, vy],
-            }
-        });
-
-        setBalls(ballsWithNewVelocities);
+        setBalls(updatedBalls);
     }
 
     return [balls, updateBalls];
