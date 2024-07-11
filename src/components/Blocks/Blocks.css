@@ -1,0 +1,19 @@
+.blocks {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.block {
+    position: absolute;
+    /*background: white;*/
+}
+
+.block.active {
+    background: white;
+}
+
+.block.inactive {
+    /*background: black;*/
+}

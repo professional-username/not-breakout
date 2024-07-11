@@ -1,0 +1,16 @@
+.balls {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.ball {
+    position: absolute;
+    /*transform: scale(var(--play-area-scale));*/
+    border-radius: 50%;
+    width: 12px;
+    height: 12px;
+    background: red;
+}
+
