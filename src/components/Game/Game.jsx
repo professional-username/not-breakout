@@ -22,7 +22,7 @@ function Game() {
     }, [balls, blocks, updateBalls, updateBlocks]);
 
     return (
-        <div className="gameBoard" style={{height: environment.size * 2, width: environment.size * 2}}>
+        <div className="gameBoard" style={{height: environment.envSize, width: environment.envSize}}>
             <Blocks blocks={blocks}/>
             <Balls balls={balls}/>
         </div>

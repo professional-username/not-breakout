@@ -2,15 +2,16 @@ import {useState} from "react";
 import {isColliding} from "/src/utils/isColliding"
 
 const setupBlocks = (environment) => {
-    const {size, nBlocks, ...props} = environment;
-    const initialBlocks = [];
-    const blockSize = 2 * size / nBlocks;
+    const {envSize, blockSize, ...props} = environment;
+    const blocksPerSide = Math.floor(envSize / blockSize);
+    const maxBlockOffset = blocksPerSide * blockSize / 2;
 
-    for (let row = 0; row <= nBlocks; row++) {
-        for (let col = 0; col <= nBlocks; col++) {
+    const initialBlocks = [];
+    for (let row = 0; row <= blocksPerSide; row++) {
+        for (let col = 0; col <= blocksPerSide; col++) {
             const position = {
-                x: -size + col * blockSize,
-                y: -size + row * blockSize,
+                x: -maxBlockOffset + col * blockSize,
+                y: -maxBlockOffset + row * blockSize,
             };
             const id = `${row}-${col}`
             initialBlocks.push({

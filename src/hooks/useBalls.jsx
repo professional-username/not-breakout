@@ -2,12 +2,12 @@ import {useState} from "react";
 import {isColliding} from "/src/utils/isColliding"
 
 const setupBalls = (environment) => {
-    const {size, nBalls, ...props} = environment;
+    const {envSize, nBalls, ...props} = environment;
     const initialOffset = 0.1; // to prevent balls from bouncing on corners
     const initialBalls = Array.from({length: nBalls}, (_, index) => ({
         position: [
-            Math.floor(Math.random() * size * 2 - size) + initialOffset,
-            Math.floor(Math.random() * size * 2 - size) + initialOffset,
+            Math.floor(Math.random() * envSize - envSize / 2) + initialOffset,
+            Math.floor(Math.random() * envSize - envSize / 2) + initialOffset,
         ],
         velocity: [
             Math.floor(Math.random() * 10) - 5,
@@ -22,12 +22,12 @@ const computeBorderBounce = (ball, environment, ballVelocity) => {
     // console.log(ball.position);
     let [x, y] = ball.position;
     let [vx, vy] = ballVelocity;
-    const size = environment.size;
+    const envHalfSize = environment.envSize / 2;
     // Compute the collision
-    if (x < -size) vx = Math.abs(vx);
-    if (x > size) vx = -Math.abs(vx);
-    if (y < -size) vy = Math.abs(vy);
-    if (y > size) vy = -Math.abs(vy);
+    if (x < -envHalfSize) vx = Math.abs(vx);
+    if (x > envHalfSize) vx = -Math.abs(vx);
+    if (y < -envHalfSize) vy = Math.abs(vy);
+    if (y > envHalfSize) vy = -Math.abs(vy);
     // Return the resulting velocity
     return [vx, vy];
 }
