@@ -1,33 +1,33 @@
 import {useState} from "react";
 import {isColliding} from "/src/utils/isColliding"
 
+const setupBlocks = (environment) => {
+    const {size, nBlocks, ...props} = environment;
+    const initialBlocks = [];
+    const blockSize = 2 * size / nBlocks;
+
+    for (let row = 0; row <= nBlocks; row++) {
+        for (let col = 0; col <= nBlocks; col++) {
+            const position = {
+                x: -size + col * blockSize,
+                y: -size + row * blockSize,
+            };
+            const id = `${row}-${col}`
+            initialBlocks.push({
+                size: blockSize,
+                position: position,
+                id: id,
+                active: true,
+            });
+        }
+    }
+
+    return initialBlocks
+}
 
 export function useBlocks(environment) {
-    const {size, nBlocks} = environment;
     // Generate blocks to fill the environment
-    const initialBlockEnvironment = () => {
-        const blocks = [];
-        const blockSize = 2 * size / nBlocks;
-
-        for (let row = 0; row <= nBlocks; row++) {
-            for (let col = 0; col <= nBlocks; col++) {
-                const position = {
-                    x: -size + col * blockSize,
-                    y: -size + row * blockSize,
-                };
-                const id = `${row}-${col}`
-                blocks.push({
-                    size: blockSize,
-                    position: position,
-                    id: id,
-                    active: true,
-                });
-            }
-        }
-        return blocks;
-    };
-
-    const [blockEnvironment, setBlockEnvironment] = useState(initialBlockEnvironment());
+    const [blockEnvironment, setBlockEnvironment] = useState(setupBlocks(environment));
 
     // Disable blocks that are colliding with balls
     const updateBlockEnvironment = (balls) => {
