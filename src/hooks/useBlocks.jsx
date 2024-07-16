@@ -19,6 +19,7 @@ const setupBlocks = (environment) => {
                 position: position,
                 id: id,
                 active: true,
+                color: 0,
             });
         }
     }
@@ -30,13 +31,20 @@ export function useBlocks(environment) {
     // Generate blocks to fill the environment
     const [blockEnvironment, setBlockEnvironment] = useState(setupBlocks(environment));
 
-    // Disable blocks that are colliding with balls
+    // Change the color of blocks that are colliding with balls
     const updateBlockEnvironment = (balls) => {
         setBlockEnvironment(prevBlocks =>
             prevBlocks.map(block => {
+                let newColor = block.color;
+                balls.forEach((ball) => {
+                    if (isColliding(ball, block)) {
+                        newColor = ball.color
+                    }
+                })
                 return {
                     ...block,
-                    active: block.active && !balls.some((ball) => isColliding(ball, block)),
+                    // active: block.active && !balls.some((ball) => isColliding(ball, block)),
+                    color: newColor,
                 }
             })
         );

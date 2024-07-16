@@ -8,10 +8,12 @@
 .block {
     position: absolute;
     /*background: white;*/
+    color: var(--element-color);
+    background: var(--element-color);
 }
 
 .block.active {
-    background: white;
+    /*background: white;*/
 }
 
 .block.inactive {

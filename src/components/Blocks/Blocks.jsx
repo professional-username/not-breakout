@@ -11,7 +11,7 @@ function Blocks({blocks}) {
 
 function Block({...blockParams}) {
     return (
-        <div className={`block ${blockParams.active ? "active" : "inactive"}`} style={{
+        <div className={`block color-${blockParams.color} ${blockParams.active ? "active" : "inactive"}`} style={{
             translate: `${blockParams.position.x}px ${blockParams.position.y}px`,
             width: blockParams.size,
             height: blockParams.size,

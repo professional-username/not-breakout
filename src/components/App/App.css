@@ -4,6 +4,27 @@
     padding: 2rem;
     text-align: center;
     --play-area-scale: 1;
+
+    --color-element-0: #f00;
+    --color-element-1: #0f0;
+    --color-element-2: #00f;
+    --color-element-3: #ff0;
+}
+
+.color-0 {
+    --element-color: var(--color-element-0);
+}
+
+.color-1 {
+    --element-color: var(--color-element-1);
+}
+
+.color-2 {
+    --element-color: var(--color-element-2);
+}
+
+.color-3 {
+    --element-color: var(--color-element-3);
 }
 
 .App {
@@ -14,3 +35,5 @@
     min-height: 100vh;
     font-size: calc(10px + 2vmin);
 }
+
+

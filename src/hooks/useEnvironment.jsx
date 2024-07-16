@@ -5,8 +5,8 @@ export function useEnvironment() {
         envSize: 400, // Side length
         blockSize: 20, // Side length
         ballSize: 10, // Diameter
-        nBalls: 3,
-        nColours: 2,
+        nColors: 4,
+        nBallsPerColor: 2,
     });
     return environment;
 }

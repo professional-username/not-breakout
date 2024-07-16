@@ -1,4 +1,9 @@
 export function isColliding(ball, block) {
+    // Check colors
+    if (ball.color === block.color) {
+        return false;
+    }
+
     const ballRadius = 6; // Assume ball radius
     const blockHalfSize = block.size / 2;
 

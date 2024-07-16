@@ -2,7 +2,8 @@ import {useState} from "react";
 import {isColliding} from "/src/utils/isColliding"
 
 const setupBalls = (environment) => {
-    const {envSize, nBalls, ...props} = environment;
+    const {envSize, nBallsPerColor, nColors, ...props} = environment;
+    const nBalls = nBallsPerColor * nColors;
     const initialOffset = 0.1; // to prevent balls from bouncing on corners
     const initialBalls = Array.from({length: nBalls}, (_, index) => ({
         position: [
@@ -14,12 +15,22 @@ const setupBalls = (environment) => {
             Math.floor(Math.random() * 10) - 5,
         ],
         id: index,
+        color: index % nColors,
     }));
     return initialBalls;
 }
 
+const computeBorderTeleport = (ball, environment) => {
+    let [x, y] = ball.position;
+    const envHalfSize = environment.envSize / 2;
+    if (x < -envHalfSize) x = envHalfSize;
+    if (x > envHalfSize) x = -envHalfSize;
+    if (y < -envHalfSize) y = envHalfSize;
+    if (y > envHalfSize) y = -envHalfSize;
+    return [x, y];
+}
+
 const computeBorderBounce = (ball, environment, ballVelocity) => {
-    // console.log(ball.position);
     let [x, y] = ball.position;
     let [vx, vy] = ballVelocity;
     const envHalfSize = environment.envSize / 2;
@@ -85,14 +96,16 @@ export function useBalls(environment) {
     const updateBalls = (blocks) => {
         const updatedBalls = balls.map((ball, index) => {
             // Update the position
-            let updatedPosition = [
-                ball.position[0] + ball.velocity[0],
-                ball.position[1] + ball.velocity[1],
+            let updatedPosition = computeBorderTeleport(ball, environment);
+            updatedPosition = [
+                updatedPosition[0] + ball.velocity[0],
+                updatedPosition[1] + ball.velocity[1],
             ]
+
 
             // Update the velocity
             let updatedVelocity = ball.velocity;
-            updatedVelocity = computeBorderBounce(ball, environment, updatedVelocity);
+            // updatedVelocity = computeBorderBounce(ball, environment, updatedVelocity);
             updatedVelocity = computeBlockBounce(ball, blocks, updatedVelocity);
             updatedVelocity = computeBallBounce(ball, balls, updatedVelocity);
 
