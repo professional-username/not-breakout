@@ -1,4 +1,4 @@
-import "./Game.css"
+import "./Game.scss"
 import {useEffect} from "react"
 import {useEnvironment} from "/src/hooks/useEnvironment";
 import {useBalls} from "/src/hooks/useBalls";

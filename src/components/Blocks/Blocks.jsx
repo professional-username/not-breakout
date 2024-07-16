@@ -1,4 +1,4 @@
-import "./Blocks.css"
+import "./Blocks.scss"
 
 
 function Blocks({blocks}) {

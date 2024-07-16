@@ -1,4 +1,4 @@
-import "./Balls.css"
+import "./Balls.scss"
 
 function Balls({balls}) {
     return (
