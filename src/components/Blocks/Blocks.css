@@ -9,14 +9,7 @@
   position: absolute;
   color: var(--element-background-color);
   background: var(--element-background-color);
-}
-
-.block.active {
-  /*background: white;*/
-}
-
-.block.inactive {
-  /*background: black;*/
+  --border-color: #2e3440;
 }
 
 /*# sourceMappingURL=Blocks.css.map */

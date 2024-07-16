@@ -20,35 +20,60 @@ const setupBlocks = (environment) => {
                 id: id,
                 active: true,
                 color: 0,
+                borderTop: false,
+                borderLeft: false,
             });
         }
     }
+
 
     return initialBlocks
 }
 
 export function useBlocks(environment) {
     // Generate blocks to fill the environment
-    const [blockEnvironment, setBlockEnvironment] = useState(setupBlocks(environment));
+    const [blocks, setBlocks] = useState(setupBlocks(environment));
 
     // Change the color of blocks that are colliding with balls
-    const updateBlockEnvironment = (balls) => {
-        setBlockEnvironment(prevBlocks =>
-            prevBlocks.map(block => {
-                let newColor = block.color;
-                balls.forEach((ball) => {
-                    if (isColliding(ball, block)) {
-                        newColor = ball.color
-                    }
-                })
-                return {
-                    ...block,
-                    // active: block.active && !balls.some((ball) => isColliding(ball, block)),
-                    color: newColor,
+    const updateBlocks = (balls) => {
+        const updatedColorBlocks = blocks.map((block, index) => {
+            // Update the block color
+            let newColor = block.color;
+            balls.forEach((ball) => {
+                if (isColliding(ball, block)) {
+                    newColor = ball.color
                 }
             })
-        );
+            return {
+                ...block,
+                color: newColor,
+            };
+        })
+
+        const updatedBorderBlocks = updatedColorBlocks.map((block, index) => {
+            // Left Borders
+            const blockCol = block.id.split('-')[1];
+            let borderLeft = false;
+            if (blockCol !== "0") {
+                borderLeft = (block.color !== updatedColorBlocks[index - 1].color);
+            }
+
+            // Top borders
+            const blocksPerSide = Math.floor(environment.envSize / environment.blockSize);
+            let borderTop = false;
+            if (index > blocksPerSide) {
+                borderTop = (block.color !== updatedColorBlocks[index - blocksPerSide-1].color);
+            }
+
+            return {
+                ...block,
+                borderLeft: borderLeft,
+                borderTop: borderTop,
+            };
+        })
+
+        setBlocks(updatedBorderBlocks);
     };
 
-    return [blockEnvironment, updateBlockEnvironment];
+    return [blocks, updateBlocks];
 }
