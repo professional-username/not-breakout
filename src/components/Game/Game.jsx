@@ -1,6 +1,6 @@
 import "./Game.scss"
 import {useEffect} from "react"
-import {useEnvironment} from "/src/hooks/useEnvironment";
+import {useSettings} from "/src/hooks/useSettings";
 import {useBalls} from "/src/hooks/useBalls";
 import {useBlocks} from "/src/hooks/useBlocks";
 import Blocks from "/src/components/Blocks/Blocks";
@@ -12,9 +12,9 @@ import SettingsMenu from "../SettingsMenu/SettingsMenu.jsx";
 
 function Game() {
 
-    const environment = useEnvironment();
-    const [balls, updateBalls] = useBalls(environment);
-    const [blocks, updateBlocks] = useBlocks(environment);
+    const [settings, updateSetting] = useSettings();
+    const [balls, updateBalls] = useBalls(settings);
+    const [blocks, updateBlocks] = useBlocks(settings);
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -27,12 +27,12 @@ function Game() {
     return (
         <div className="dashboard">
             <GameData Balls={balls} Blocks={blocks}/>
-            <div className="gameBoard" style={{height: environment.envSize, width: environment.envSize}}>
+            <div className="gameBoard" style={{height: settings.envSize, width: settings.envSize}}>
                 <Blocks blocks={blocks}/>
                 <Borders blocks={blocks}/>
                 <Balls balls={balls}/>
             </div>
-            <SettingsMenu/>
+            <SettingsMenu settings={settings} updateSetting={updateSetting} />
         </div>
     )
 }

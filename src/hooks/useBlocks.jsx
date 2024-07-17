@@ -1,8 +1,8 @@
 import {useState} from "react";
 import {isColliding} from "/src/utils/isColliding"
 
-const setupBlocks = (environment) => {
-    const {envSize, blockSize, ...props} = environment;
+const setupBlocks = (setttings) => {
+    const {envSize, blockSize, ...props} = setttings;
     const blocksPerSide = Math.floor(envSize / blockSize);
     const maxBlockOffset = blocksPerSide * blockSize / 2;
 
@@ -34,9 +34,9 @@ const setupBlocks = (environment) => {
     return initialBlocks
 }
 
-export function useBlocks(environment) {
-    // Generate blocks to fill the environment
-    const [blocks, setBlocks] = useState(setupBlocks(environment));
+export function useBlocks(setttings) {
+    // Generate blocks to fill the setttings
+    const [blocks, setBlocks] = useState(setupBlocks(setttings));
 
     // Change the color of blocks that are colliding with balls
     const updateBlocks = (balls) => {
@@ -56,7 +56,7 @@ export function useBlocks(environment) {
 
         const updatedBorderBlocks = updatedColorBlocks.map((block, index) => {
             // Top borders
-            const blocksPerSide = Math.floor(environment.envSize / environment.blockSize);
+            const blocksPerSide = Math.floor(setttings.envSize / setttings.blockSize);
             let borderTop = false;
             if (index > blocksPerSide) {
                 borderTop = (block.color !== updatedColorBlocks[index - blocksPerSide - 1].color);

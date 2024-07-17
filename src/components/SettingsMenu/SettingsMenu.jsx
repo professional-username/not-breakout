@@ -1,9 +1,9 @@
 import "./SettingsMenu.scss"
 
-function SettingsMenu() {
+function SettingsMenu({settings, updateSetting}) {
     return (
         <div className="settingsMenu">
-            <p>Settings Menu</p>
+            <p>Settings</p>
         </div>
     )
 }
