@@ -6,6 +6,8 @@ import {useBlocks} from "/src/hooks/useBlocks";
 import Blocks from "/src/components/Blocks/Blocks";
 import Balls from "/src/components/Balls/Balls";
 import Borders from "/src/components/BorderOverlay/BorderOverlay";
+import GameData from "../GameData/GameData.jsx";
+import SettingsMenu from "../SettingsMenu/SettingsMenu.jsx";
 
 
 function Game() {
@@ -23,10 +25,14 @@ function Game() {
     }, [balls, blocks, updateBalls, updateBlocks]);
 
     return (
-        <div className="gameBoard" style={{height: environment.envSize, width: environment.envSize}}>
-            <Blocks blocks={blocks}/>
-            <Borders blocks={blocks}/>
-            <Balls balls={balls}/>
+        <div className="dashboard">
+            <GameData Balls={balls} Blocks={blocks}/>
+            <div className="gameBoard" style={{height: environment.envSize, width: environment.envSize}}>
+                <Blocks blocks={blocks}/>
+                <Borders blocks={blocks}/>
+                <Balls balls={balls}/>
+            </div>
+            <SettingsMenu/>
         </div>
     )
 }

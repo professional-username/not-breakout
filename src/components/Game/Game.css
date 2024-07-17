@@ -1,4 +1,13 @@
+.dashboard {
+  display: grid;
+  width: 100%;
+  grid-template-columns: 1fr 2.5fr 1fr;
+  justify-items: center;
+  align-items: center;
+}
+
 .gameBoard {
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;

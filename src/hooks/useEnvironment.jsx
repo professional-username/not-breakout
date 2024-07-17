@@ -2,11 +2,11 @@ import {useState} from "react";
 
 export function useEnvironment() {
     const [environment, setEnvironment] = useState({
-        envSize: 499, // Side length
+        envSize: 399, // Side length
         blockSize: 20, // Side length
-        ballRadius: 6,
+        ballRadius: 7,
         nColors: 4,
-        nBallsPerColor: 3,
+        nBallsPerColor: 2,
     });
     return environment;
 }
