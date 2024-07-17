@@ -20,8 +20,12 @@ const setupBlocks = (environment) => {
                 id: id,
                 active: true,
                 color: 0,
-                borderTop: false,
-                borderLeft: false,
+                borders: {
+                    left: false,
+                    right: false,
+                    top: false,
+                    bottom: false,
+                }
             });
         }
     }
@@ -51,24 +55,36 @@ export function useBlocks(environment) {
         })
 
         const updatedBorderBlocks = updatedColorBlocks.map((block, index) => {
-            // Left Borders
+            // Top borders
+            const blocksPerSide = Math.floor(environment.envSize / environment.blockSize);
+            let borderTop = false;
+            if (index > blocksPerSide) {
+                borderTop = (block.color !== updatedColorBlocks[index - blocksPerSide - 1].color);
+            }
+            let borderBottom = false;
+            if (index < updatedColorBlocks.length - blocksPerSide - 1) {
+                borderBottom = (block.color !== updatedColorBlocks[index + blocksPerSide + 1].color);
+            }
+
+            // Left and Right Borders
             const blockCol = block.id.split('-')[1];
             let borderLeft = false;
             if (blockCol !== "0") {
                 borderLeft = (block.color !== updatedColorBlocks[index - 1].color);
             }
-
-            // Top borders
-            const blocksPerSide = Math.floor(environment.envSize / environment.blockSize);
-            let borderTop = false;
-            if (index > blocksPerSide) {
-                borderTop = (block.color !== updatedColorBlocks[index - blocksPerSide-1].color);
+            let borderRight = false;
+            if (blockCol !== `${blocksPerSide}`) {
+                borderRight = (block.color !== updatedColorBlocks[index + 1].color);
             }
 
             return {
                 ...block,
-                borderLeft: borderLeft,
-                borderTop: borderTop,
+                borders: {
+                    top: borderTop,
+                    bottom: borderBottom,
+                    left: borderLeft,
+                    right: borderRight,
+                }
             };
         })
 

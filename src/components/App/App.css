@@ -8,22 +8,22 @@
 
 .color-0 {
   --element-color: #8fbcbb;
-  --element-background-color: #accdcc;
+  --element-background-color: #9fc6c5;
 }
 
 .color-1 {
   --element-color: #88c0d0;
-  --element-background-color: #a9d1dd;
+  --element-background-color: #9acad7;
 }
 
 .color-2 {
   --element-color: #81a1c1;
-  --element-background-color: #a0b8d0;
+  --element-background-color: #92aec9;
 }
 
 .color-3 {
   --element-color: #5e81ac;
-  --element-background-color: #7c99bc;
+  --element-background-color: #6f8eb5;
 }
 
 .App {

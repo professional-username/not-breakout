@@ -1,12 +1,12 @@
-.blocks {
+.borders {
   position: absolute;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.block {
+.border {
   position: absolute;
-  color: var(--element-background-color);
-  background: var(--element-background-color);
+  --border-color: #2e3440;
+  //border: 2px solid var(--border-color);
 }
