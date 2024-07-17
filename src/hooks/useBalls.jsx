@@ -2,7 +2,7 @@ import {useState} from "react";
 import {isColliding} from "/src/utils/isColliding"
 
 const setupBalls = (environment) => {
-    const {envSize, nBallsPerColor, nColors, ...props} = environment;
+    const {ballRadius, envSize, nBallsPerColor, nColors, ...props} = environment;
     const nBalls = nBallsPerColor * nColors;
     const initialOffset = 0.1; // to prevent balls from bouncing on corners
     const initialBalls = Array.from({length: nBalls}, (_, index) => ({
@@ -14,6 +14,7 @@ const setupBalls = (environment) => {
             Math.floor(Math.random() * 10) - 5,
             Math.floor(Math.random() * 10) - 5,
         ],
+        radius: ballRadius,
         id: index,
         color: index % nColors,
     }));
@@ -67,15 +68,15 @@ const computeBlockBounce = (ball, blocks, ballVelocity) => {
 
 const computeBallBounce = (ball, allBalls, ballVelocity) => {
     // Filter out the ball we're comparing
-    const otherBalls = allBalls.filter(({id}) => id !== ball.id);
+    const otherBalls = allBalls.filter(({id}) => id > ball.id);
     // Check for collisions against all other balls
     let [x, y] = ball.position;
     let [vx, vy] = ballVelocity;
-    otherBalls.forEach((otherBall, index) => {
+    otherBalls.forEach(otherBall => {
         const dx = otherBall.position[0] - x;
         const dy = otherBall.position[1] - y;
         const distance = Math.sqrt(dx * dx + dy * dy);
-        if (distance <= 12) {
+        if (distance <= ball.radius * 2) {
             // Reverse velocity on collision
             const dxn = dx / distance;
             const dyn = dy / distance;

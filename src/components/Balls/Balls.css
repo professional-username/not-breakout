@@ -9,8 +9,6 @@
   position: absolute;
   /*transform: scale(var(--play-area-scale));*/
   border-radius: 50%;
-  width: 12px;
-  height: 12px;
   border: 2px solid #2e3440;
   color: var(--element-color);
   background: var(--element-color);
