@@ -17,7 +17,6 @@ const setupBalls = (environment) => {
         radius: ballRadius,
         id: index,
         color: index % nColors,
-        recentlyBounced: 0,
     }));
     return initialBalls;
 }
@@ -103,49 +102,39 @@ const computeBallBounce = (ball, allBalls, ballVelocity) => {
     return [vx1, vy1];
 }
 
+const computeGravity = (ballVelocity, gravity = 0.1) => {
+    const [vx, vy] = ballVelocity;
+    return [vx, vy + gravity / 2];
+}
+
 export function useBalls(environment) {
     const [balls, setBalls] = useState(setupBalls(environment));
 
     const updateBalls = (blocks) => {
         const updatedBalls = balls.map((ball, index) => {
-            // Compute bouncing off of other balls
-            let updatedVelocity = ball.velocity;
-            // Prevent the ball from bouncing off another ball 2 frames in a row
-            let recentlyBounced = ball.recentlyBounced;
-            // if (recentlyBounced) {
-            //     // console.log(recentlyBounced)
-            //     recentlyBounced -= 1;
-            // } else {
-            updatedVelocity = computeBallBounce(ball, balls, updatedVelocity);
-            // If the velocity has changed, set recentlyBounced
-            //     if (
-            //         updatedVelocity[0] !== ball.velocity[0] ||
-            //         updatedVelocity[1] !== ball.velocity[1]
-            //     ) {
-            //         recentlyBounced = 20;
-            //     }
-            // }
-            // Compute more simple bounces
-            updatedVelocity = computeBorderBounce(ball, environment, updatedVelocity);
-            updatedVelocity = computeBlockBounce(ball, blocks, updatedVelocity);
-
-            // Update the position
-            // let updatedPosition = computeBorderTeleport(ball, environment);
-            let updatedPosition = ball.position;
-            updatedPosition = [
-                updatedPosition[0] + updatedVelocity[0],
-                updatedPosition[1] + updatedVelocity[1],
-            ]
+                // Compute bouncing off of other balls
+                let updatedVelocity = ball.velocity;
+                updatedVelocity = computeBallBounce(ball, balls, updatedVelocity);
+                updatedVelocity = computeBlockBounce(ball, blocks, updatedVelocity);
+                // updatedVelocity = computeBorderBounce(ball, environment, updatedVelocity);
 
 
-            // Set and return
-            return {
-                ...ball,
-                position: updatedPosition,
-                velocity: updatedVelocity,
-                recentlyBounced: recentlyBounced,
-            };
-        })
+                // Update the position
+                let updatedPosition = computeBorderTeleport(ball, environment);
+                updatedPosition = [
+                    updatedPosition[0] + updatedVelocity[0],
+                    updatedPosition[1] + updatedVelocity[1],
+                ]
+
+
+                // Set and return
+                return {
+                    ...ball,
+                    position: updatedPosition,
+                    velocity: updatedVelocity,
+                };
+            }
+        )
         setBalls(updatedBalls);
     }
 
