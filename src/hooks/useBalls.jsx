@@ -11,12 +11,13 @@ const setupBalls = (environment) => {
             Math.floor(Math.random() * envSize - envSize / 2) + initialOffset,
         ],
         velocity: [
-            Math.floor(Math.random() * 10) - 5,
-            Math.floor(Math.random() * 10) - 5,
+            Math.floor(Math.random() * 8) - 4,
+            Math.floor(Math.random() * 8) - 4,
         ],
         radius: ballRadius,
         id: index,
         color: index % nColors,
+        recentlyBounced: 0,
     }));
     return initialBalls;
 }
@@ -68,27 +69,38 @@ const computeBlockBounce = (ball, blocks, ballVelocity) => {
 
 const computeBallBounce = (ball, allBalls, ballVelocity) => {
     // Filter out the ball we're comparing
-    const otherBalls = allBalls.filter(({id}) => id > ball.id);
+    const otherBalls = allBalls.filter(({id}) => id !== ball.id);
     // Check for collisions against all other balls
-    let [x, y] = ball.position;
-    let [vx, vy] = ballVelocity;
+    const [x, y] = ball.position;
+    const [vx, vy] = ballVelocity;
+    let [vx1, vy1] = [vx, vy]; // So we're not directly changing anything
     otherBalls.forEach(otherBall => {
         const dx = otherBall.position[0] - x;
         const dy = otherBall.position[1] - y;
         const distance = Math.sqrt(dx * dx + dy * dy);
         if (distance <= ball.radius * 2) {
-            // Reverse velocity on collision
-            const dxn = dx / distance;
-            const dyn = dy / distance;
-            const dotProduct = vx * dxn + vy * dyn;
+            // Calculate the angle of reflection
+            const theta = Math.atan2(dy, dx);
+            const sinTheta = Math.sin(theta);
+            const cosTheta = Math.cos(theta);
 
-            if (dotProduct > 0) {
-                vx = vx - 2 * dotProduct * dxn;
-                vy = vy - 2 * dotProduct * dyn;
-            }
+            // Get the velocity of the other ball
+            const [vx2, vy2] = otherBall.velocity;
+
+            // Rotate velocities
+            let vx1r = vx1 * cosTheta + vy1 * sinTheta;
+            let vy1r = -vx1 * sinTheta + vy1 * cosTheta;
+            let vx2r = vx2 * cosTheta + vy2 * sinTheta;
+
+            // Bounce
+            vx1r = 0.5 * (vx1r + vx2r - Math.sqrt(vx1r * vx1r + vx2r * vx2r - vx1r * vx2r));
+
+            // Rotate back
+            vx1 = vx1r * cosTheta - vy1r * sinTheta;
+            vy1 = vx1r * sinTheta + vy1r * cosTheta;
         }
     })
-    return [vx, vy];
+    return [vx1, vy1];
 }
 
 export function useBalls(environment) {
@@ -96,25 +108,42 @@ export function useBalls(environment) {
 
     const updateBalls = (blocks) => {
         const updatedBalls = balls.map((ball, index) => {
+            // Compute bouncing off of other balls
+            let updatedVelocity = ball.velocity;
+            // Prevent the ball from bouncing off another ball 2 frames in a row
+            let recentlyBounced = ball.recentlyBounced;
+            // if (recentlyBounced) {
+            //     // console.log(recentlyBounced)
+            //     recentlyBounced -= 1;
+            // } else {
+            updatedVelocity = computeBallBounce(ball, balls, updatedVelocity);
+            // If the velocity has changed, set recentlyBounced
+            //     if (
+            //         updatedVelocity[0] !== ball.velocity[0] ||
+            //         updatedVelocity[1] !== ball.velocity[1]
+            //     ) {
+            //         recentlyBounced = 20;
+            //     }
+            // }
+            // Compute more simple bounces
+            updatedVelocity = computeBorderBounce(ball, environment, updatedVelocity);
+            updatedVelocity = computeBlockBounce(ball, blocks, updatedVelocity);
+
             // Update the position
-            let updatedPosition = computeBorderTeleport(ball, environment);
+            // let updatedPosition = computeBorderTeleport(ball, environment);
+            let updatedPosition = ball.position;
             updatedPosition = [
-                updatedPosition[0] + ball.velocity[0],
-                updatedPosition[1] + ball.velocity[1],
+                updatedPosition[0] + updatedVelocity[0],
+                updatedPosition[1] + updatedVelocity[1],
             ]
 
-
-            // Update the velocity
-            let updatedVelocity = ball.velocity;
-            // updatedVelocity = computeBorderBounce(ball, environment, updatedVelocity);
-            updatedVelocity = computeBlockBounce(ball, blocks, updatedVelocity);
-            updatedVelocity = computeBallBounce(ball, balls, updatedVelocity);
 
             // Set and return
             return {
                 ...ball,
                 position: updatedPosition,
-                velocity: updatedVelocity
+                velocity: updatedVelocity,
+                recentlyBounced: recentlyBounced,
             };
         })
         setBalls(updatedBalls);
