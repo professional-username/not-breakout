@@ -26,7 +26,7 @@ function Game() {
 
     return (
         <div className="dashboard">
-            <GameData Balls={balls} Blocks={blocks}/>
+            <GameData settings={settings} Balls={balls} Blocks={blocks}/>
             <div className="gameBoard" style={{height: settings.envSize, width: settings.envSize}}>
                 <Blocks blocks={blocks}/>
                 <Borders blocks={blocks}/>
