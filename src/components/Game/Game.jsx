@@ -12,9 +12,15 @@ import SettingsMenu from "../SettingsMenu/SettingsMenu.jsx";
 
 function Game() {
 
-    const [settings, updateSetting] = useSettings();
-    const [balls, updateBalls] = useBalls(settings);
-    const [blocks, updateBlocks] = useBlocks(settings);
+    const [settings, updateSettings] = useSettings();
+    const [balls, updateBalls, resetBalls] = useBalls(settings);
+    const [blocks, updateBlocks, resetBlocks] = useBlocks(settings);
+
+    const reloadSettings = (newSettings) => {
+        updateSettings(newSettings);
+        resetBalls(newSettings);
+        resetBlocks(newSettings);
+    }
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -32,7 +38,7 @@ function Game() {
                 <Borders blocks={blocks}/>
                 <Balls balls={balls}/>
             </div>
-            <SettingsMenu settings={settings} updateSetting={updateSetting} />
+            <SettingsMenu settings={settings} reloadSettings={reloadSettings}/>
         </div>
     )
 }

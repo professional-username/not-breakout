@@ -1,17 +1,22 @@
-import {useState} from "react";
+import {useCallback, useState} from "react";
 
-export function useSettings() {
-    const [settings, setSettings] = useState({
-        envSize: 399, // Side length
-        blockSize: 20, // Side length
-        ballRadius: 7,
-        nColors: 4,
-        nBallsPerColor: 2,
+const defaultSettings = {
+    envSize: 399, // Side length
+    blockSize: 20, // Side length
+    ballRadius: 7,
+    nColors: 4,
+    nBallsPerColor: 2,
+}
+
+export function useSettings(initialSettings = defaultSettings) {
+    const [settings, setSettings] = useState(initialSettings);
+
+    const updateSettings = useCallback((newSettings) => {
+        setSettings((prevSettings) => ({
+            ...prevSettings,
+            ...newSettings,
+        }));
     });
 
-    const updateSetting = (key, value) => {
-        setSettings({...settings, [key]: value});
-    }
-
-    return [settings, updateSetting];
+    return [settings, updateSettings];
 }

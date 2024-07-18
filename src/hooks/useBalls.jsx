@@ -1,8 +1,8 @@
 import {useState} from "react";
 import {isColliding} from "/src/utils/isColliding"
 
-const setupBalls = (setttings) => {
-    const {ballRadius, envSize, nBallsPerColor, nColors, ...props} = setttings;
+const setupBalls = (settings) => {
+    const {ballRadius, envSize, nBallsPerColor, nColors, ...props} = settings;
     const nBalls = nBallsPerColor * nColors;
     const initialOffset = 0.1; // to prevent balls from bouncing on corners
     const initialBalls = Array.from({length: nBalls}, (_, index) => ({
@@ -21,9 +21,9 @@ const setupBalls = (setttings) => {
     return initialBalls;
 }
 
-const computeBorderTeleport = (ball, setttings) => {
+const computeBorderTeleport = (ball, settings) => {
     let [x, y] = ball.position;
-    const envHalfSize = setttings.envSize / 2;
+    const envHalfSize = settings.envSize / 2;
     if (x < -envHalfSize) x = envHalfSize;
     if (x > envHalfSize) x = -envHalfSize;
     if (y < -envHalfSize) y = envHalfSize;
@@ -31,10 +31,10 @@ const computeBorderTeleport = (ball, setttings) => {
     return [x, y];
 }
 
-const computeBorderBounce = (ball, setttings, ballVelocity) => {
+const computeBorderBounce = (ball, settings, ballVelocity) => {
     let [x, y] = ball.position;
     let [vx, vy] = ballVelocity;
-    const envHalfSize = setttings.envSize / 2;
+    const envHalfSize = settings.envSize / 2;
     // Compute the collision
     if (x < -envHalfSize) vx = Math.abs(vx);
     if (x > envHalfSize) vx = -Math.abs(vx);
@@ -107,8 +107,8 @@ const computeGravity = (ballVelocity, gravity = 0.1) => {
     return [vx, vy + gravity / 2];
 }
 
-export function useBalls(setttings) {
-    const [balls, setBalls] = useState(setupBalls(setttings));
+export function useBalls(settings) {
+    const [balls, setBalls] = useState(setupBalls(settings));
 
     const updateBalls = (blocks) => {
         const updatedBalls = balls.map((ball, index) => {
@@ -116,11 +116,11 @@ export function useBalls(setttings) {
                 let updatedVelocity = ball.velocity;
                 updatedVelocity = computeBallBounce(ball, balls, updatedVelocity);
                 updatedVelocity = computeBlockBounce(ball, blocks, updatedVelocity);
-                // updatedVelocity = computeBorderBounce(ball, setttings, updatedVelocity);
+                // updatedVelocity = computeBorderBounce(ball, settings, updatedVelocity);
 
 
                 // Update the position
-                let updatedPosition = computeBorderTeleport(ball, setttings);
+                let updatedPosition = computeBorderTeleport(ball, settings);
                 updatedPosition = [
                     updatedPosition[0] + updatedVelocity[0],
                     updatedPosition[1] + updatedVelocity[1],
@@ -138,5 +138,9 @@ export function useBalls(setttings) {
         setBalls(updatedBalls);
     }
 
-    return [balls, updateBalls];
+    const resetBalls = (newSettings) => {
+        setBalls(setupBalls(newSettings));
+    }
+
+    return [balls, updateBalls, resetBalls];
 }

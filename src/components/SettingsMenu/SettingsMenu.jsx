@@ -1,16 +1,17 @@
 import "./SettingsMenu.scss"
+import {useSettings} from "../../hooks/useSettings.jsx";
 
-function IncrementButton({label, value, valueName, updateSetting}) {
+function IncrementButton({label, value, valueName, updateSettings}) {
     return (
         <div className={"incrementButton"}>
             <button
-                onClick={() => updateSetting(valueName, value - 1)}
+                onClick={() => updateSettings({[valueName]: value - 1})}
             >
                 -
             </button>
             <div>{label}</div>
             <button
-                onClick={() => updateSetting(valueName, value + 1)}
+                onClick={() => updateSettings({[valueName]: value + 1})}
             >
                 +
             </button>
@@ -18,25 +19,24 @@ function IncrementButton({label, value, valueName, updateSetting}) {
     )
 }
 
-function ReloadButton() {
+function ReloadButton({privateSettings, updateSettings}) {
     return (
         <button
-            onClick={() => window.location.reload()}
+            onClick={() => updateSettings(privateSettings)}
         >
             Reload
         </button>
     )
 }
 
-function SettingsMenu({settings, updateSetting}) {
+function SettingsMenu({settings, reloadSettings}) {
+    const [privateSettings, updatePrivateSettings] = useSettings(settings);
+
     return (
         <div className="settingsMenu">
-            <p>Size: {settings.envSize}</p>
-            <p>blockSize: {settings.blockSize}</p>
-            <p>Balls per Color: {settings.nBallsPerColor}</p>
-            <p>Ball Radius: {settings.ballRadius}</p>
-            <IncrementButton label="Colors" value={settings.nColors} valueName="nColors" updateSetting={updateSetting}/>
-
+            <IncrementButton label="Colors" value={privateSettings.nColors} valueName="nColors"
+                             updateSettings={updatePrivateSettings}/>
+            <ReloadButton privateSettings={privateSettings} updateSettings={reloadSettings}/>
         </div>
     )
 }
