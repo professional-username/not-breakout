@@ -22,7 +22,7 @@ function Game() {
             updateBlocks(balls);
         }, 10);
         return () => clearInterval(interval);
-    }, [balls, blocks, updateBalls, updateBlocks]);
+    }, [settings, balls, blocks, updateBalls, updateBlocks]);
 
     return (
         <div className="dashboard">
