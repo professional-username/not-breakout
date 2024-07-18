@@ -1,7 +1,10 @@
 .gameData {
-  display: flex;
-  width: 200px;
+  display: grid;
+  //grid-template-columns: 1fr 1fr 1fr 1fr;
+  //width: 200px;
   flex-direction: column;
+  // Spacing
+  grid-column-gap: 1em;
   // position: relative;
   //top: 0;
   //left: 0;
@@ -9,6 +12,21 @@
   //bottom: 0;
   //z-index: 1;
   //display: flex;
-  //justify-content: center;
+  //justify-items: center;
   //align-items: center;
+}
+
+.colorDisplayNumber {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--element-color);
+}
+
+.colorDisplayLabel {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  //font-size: 1.5em;
+  color: var(--element-color);
 }
