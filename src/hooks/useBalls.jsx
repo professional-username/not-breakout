@@ -11,8 +11,8 @@ const setupBalls = (settings) => {
             Math.floor(Math.random() * envSize - envSize / 2) + initialOffset,
         ],
         velocity: [
-            Math.floor(Math.random() * 8) - 4,
-            Math.floor(Math.random() * 8) - 4,
+            (Math.floor(Math.random() * 8) - 4),
+            (Math.floor(Math.random() * 8) - 4),
         ],
         radius: ballRadius,
         id: index,
@@ -90,9 +90,20 @@ const computeBallBounce = (ball, allBalls, ballVelocity) => {
             let vx1r = vx1 * cosTheta + vy1 * sinTheta;
             let vy1r = -vx1 * sinTheta + vy1 * cosTheta;
             let vx2r = vx2 * cosTheta + vy2 * sinTheta;
+            let vy2r = -vx2 * sinTheta + vy2 * cosTheta;
+
+            // Scale the kinetic energy to keep it constant
+            const initialKE = Math.sqrt(vx1r * vx1r + vy1r * vy1r) + Math.sqrt(vx2r * vx2r + vy2r * vy2r);
+            const afterKE = Math.sqrt(vx2r * vx2r + vy1r * vy1r) + Math.sqrt(vx1r * vx1r + vy2r * vy2r);
+            const e = 1;
+            const scaleKE = e * initialKE / afterKE;
 
             // Bounce
-            vx1r = 0.5 * (vx1r + vx2r - Math.sqrt(vx1r * vx1r + vx2r * vx2r - vx1r * vx2r));
+            vx1r = (vx1r + vx2r - Math.abs(vx1r - vx2r)) / 2
+
+            // Scale the velocities using calculated KE scale
+            vx1r *= scaleKE;
+            vy1r *= scaleKE;
 
             // Rotate back
             vx1 = vx1r * cosTheta - vy1r * sinTheta;
@@ -118,14 +129,13 @@ export function useBalls(settings) {
                 updatedVelocity = computeBlockBounce(ball, blocks, updatedVelocity);
                 // updatedVelocity = computeBorderBounce(ball, settings, updatedVelocity);
 
-
                 // Update the position
-                let updatedPosition = computeBorderTeleport(ball, settings);
+                let updatedPosition = ball.position;
+                updatedPosition = computeBorderTeleport(ball, settings);
                 updatedPosition = [
                     updatedPosition[0] + updatedVelocity[0],
                     updatedPosition[1] + updatedVelocity[1],
                 ]
-
 
                 // Set and return
                 return {

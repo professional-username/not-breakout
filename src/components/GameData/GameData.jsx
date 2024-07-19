@@ -22,16 +22,32 @@ function GameData({settings, Balls, Blocks}) {
     })
 
     // Calculate the total speed of each set of balls
-    const ballSpeeds = [...Array(nColors).keys()].map((color) => {
+    const ballEnergies = [...Array(nColors).keys()].map((color) => {
         const ballsOfColor = Balls.filter((ball) => ball.color === color)
         const speed = ballsOfColor.reduce((acc, ball) => acc + Math.sqrt(ball.velocity[0] ** 2 + ball.velocity[1] ** 2), 0)
         // Format speed to 2 decimal places
         return speed.toFixed(2)
     })
 
+    const ballMomentumsX = [...Array(nColors).keys()].map((color) => {
+        const ballsOfColor = Balls.filter((ball) => ball.color === color)
+        const speed = ballsOfColor.reduce((acc, ball) => acc + Math.abs(ball.velocity[0]), 0)
+        // Format speed to 2 decimal places
+        return speed.toFixed(2)
+    })
+
+    const ballMomentumsY = [...Array(nColors).keys()].map((color) => {
+        const ballsOfColor = Balls.filter((ball) => ball.color === color)
+        const speed = ballsOfColor.reduce((acc, ball) => acc + Math.abs(ball.velocity[1]), 0)
+        // Format speed to 2 decimal places
+        return speed.toFixed(2)
+    })
+
     return (<div className="gameData" style={{gridTemplateColumns: `2fr repeat(${nColors}, 1fr)`}}>
         <ColorDisplay values={colorAreas} label="Area"/>
-        <ColorDisplay values={ballSpeeds} label="Speeds"/>
+        <ColorDisplay values={ballEnergies} label="KE"/>
+        <ColorDisplay values={ballMomentumsX} label="MomentumsX"/>
+        <ColorDisplay values={ballMomentumsY} label="MomentumsY"/>
     </div>)
 }
 
