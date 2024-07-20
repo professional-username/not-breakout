@@ -9,7 +9,7 @@ function IncrementButton({label, value, valueName, updateSettings}) {
             >
                 -
             </button>
-            <div>{label}</div>
+            <div>{label}: {value}</div>
             <button
                 onClick={() => updateSettings({[valueName]: value + 1})}
             >
