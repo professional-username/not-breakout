@@ -127,15 +127,19 @@ export function useBalls(settings) {
                 let updatedVelocity = ball.velocity;
                 updatedVelocity = computeBallBounce(ball, balls, updatedVelocity);
                 updatedVelocity = computeBlockBounce(ball, blocks, updatedVelocity);
-                // updatedVelocity = computeBorderBounce(ball, settings, updatedVelocity);
+                updatedVelocity = computeBorderBounce(ball, settings, updatedVelocity);
+                updatedVelocity = computeGravity(updatedVelocity, settings.gravity);
 
                 // Update the position
                 let updatedPosition = ball.position;
-                updatedPosition = computeBorderTeleport(ball, settings);
+                // updatedPosition = computeBorderTeleport(ball, settings);
                 updatedPosition = [
                     updatedPosition[0] + updatedVelocity[0],
                     updatedPosition[1] + updatedVelocity[1],
                 ]
+
+                // Gravity has to be updated as an average over the movement of the ball
+                updatedVelocity = computeGravity(updatedVelocity, settings.gravity);
 
                 // Set and return
                 return {
