@@ -1,6 +1,6 @@
 import "./Game.scss"
 import {useEffect} from "react"
-import {useSettings} from "/src/hooks/useSettings";
+import {useSettingsContext} from "/src/contexts/SettingsContext";
 import {useBalls} from "/src/hooks/useBalls";
 import {useBlocks} from "/src/hooks/useBlocks";
 import Blocks from "/src/components/Blocks/Blocks";
@@ -12,10 +12,11 @@ import SettingsMenu from "../SettingsMenu/SettingsMenu.jsx";
 
 function Game() {
 
-    const [settings, updateSettings] = useSettings();
-    const [balls, updateBalls, resetBalls] = useBalls(settings);
-    const [blocks, updateBlocks, resetBlocks] = useBlocks(settings);
+    const {settings, updateSettings} = useSettingsContext();
+    const [balls, updateBalls, resetBalls] = useBalls();
+    const [blocks, updateBlocks, resetBlocks] = useBlocks();
 
+    // A function to reload the settings and reset the game using them
     const reloadSettings = (newSettings) => {
         updateSettings(newSettings);
         resetBalls(newSettings);
@@ -32,13 +33,13 @@ function Game() {
 
     return (
         <div className="dashboard">
-            <GameData settings={settings} Balls={balls} Blocks={blocks}/>
+            <GameData Balls={balls} Blocks={blocks}/>
             <div className="gameBoard" style={{height: settings.envSize, width: settings.envSize}}>
                 <Blocks blocks={blocks}/>
                 <Borders blocks={blocks}/>
                 <Balls balls={balls}/>
             </div>
-            <SettingsMenu settings={settings} reloadSettings={reloadSettings}/>
+            <SettingsMenu reloadSettings={reloadSettings}/>
         </div>
     )
 }

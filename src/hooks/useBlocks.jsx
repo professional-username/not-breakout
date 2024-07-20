@@ -1,5 +1,6 @@
 import {useState} from "react";
 import {isColliding} from "/src/utils/isColliding"
+import {useSettingsContext} from "../contexts/SettingsContext.jsx";
 
 const setupBlocks = (settings) => {
     const {envSize, blockSize, ...props} = settings;
@@ -34,7 +35,8 @@ const setupBlocks = (settings) => {
     return initialBlocks
 }
 
-export function useBlocks(settings) {
+export function useBlocks() {
+    const {settings} = useSettingsContext();
     // Generate blocks to fill the settings
     const [blocks, setBlocks] = useState(setupBlocks(settings));
 

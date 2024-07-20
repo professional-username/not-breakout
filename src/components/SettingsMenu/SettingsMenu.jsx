@@ -1,5 +1,6 @@
 import "./SettingsMenu.scss"
 import {useSettings} from "../../hooks/useSettings.jsx";
+import {useSettingsContext} from "../../contexts/SettingsContext.jsx";
 
 function IncrementButton({label, value, valueName, updateSettings}) {
     return (
@@ -29,7 +30,8 @@ function ReloadButton({privateSettings, updateSettings}) {
     )
 }
 
-function SettingsMenu({settings, reloadSettings}) {
+function SettingsMenu({reloadSettings}) {
+    const {settings} = useSettingsContext();
     const [privateSettings, updatePrivateSettings] = useSettings(settings);
 
     return (

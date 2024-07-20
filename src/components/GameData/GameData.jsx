@@ -1,4 +1,5 @@
 import "./GameData.scss"
+import {useSettingsContext} from "../../contexts/SettingsContext.jsx";
 
 function ColorDisplay({values, label}) {
     return (
@@ -12,7 +13,8 @@ function ColorDisplay({values, label}) {
     )
 }
 
-function GameData({settings, Balls, Blocks}) {
+function GameData({Balls, Blocks}) {
+    const {settings} = useSettingsContext()
     // Grab relevant settings
     const nColors = settings.nColors;
     // Calculate the area of each color

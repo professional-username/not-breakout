@@ -1,5 +1,6 @@
 import {useState} from "react";
 import {isColliding} from "/src/utils/isColliding"
+import {useSettingsContext} from "../contexts/SettingsContext.jsx";
 
 const setupBalls = (settings) => {
     const {ballRadius, envSize, nBallsPerColor, nColors, ...props} = settings;
@@ -118,7 +119,8 @@ const computeGravity = (ballVelocity, gravity = 0.1) => {
     return [vx, vy + gravity / 2];
 }
 
-export function useBalls(settings) {
+export function useBalls() {
+    const {settings} = useSettingsContext();
     const [balls, setBalls] = useState(setupBalls(settings));
 
     const updateBalls = (blocks) => {
