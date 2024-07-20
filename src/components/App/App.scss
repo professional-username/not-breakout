@@ -11,6 +11,11 @@ $color-element-0: #8fbcbb;
 $color-element-1: #88c0d0;
 $color-element-2: #81a1c1;
 $color-element-3: #5e81ac;
+$color-element-4: #bf616a;
+$color-element-5: #d08770;
+$color-element-6: #ebcb8b;
+$color-element-7: #a3be8c;
+$color-element-8: #b48ead;
 
 $background-lighten: 5%;
 
@@ -32,6 +37,31 @@ $background-lighten: 5%;
 .color-3 {
   --element-color: #{$color-element-3};
   --element-background-color: #{lighten($color-element-3, $background-lighten)};
+}
+
+.color-4 {
+  --element-color: #{$color-element-4};
+  --element-background-color: #{lighten($color-element-4, $background-lighten)};
+}
+
+.color-5 {
+  --element-color: #{$color-element-5};
+  --element-background-color: #{lighten($color-element-5, $background-lighten)};
+}
+
+.color-6 {
+  --element-color: #{$color-element-6};
+  --element-background-color: #{lighten($color-element-6, $background-lighten)};
+}
+
+.color-7 {
+  --element-color: #{$color-element-7};
+  --element-background-color: #{lighten($color-element-7, $background-lighten)};
+}
+
+.color-8 {
+  --element-color: #{$color-element-8};
+  --element-background-color: #{lighten($color-element-8, $background-lighten)};
 }
 
 .App {
