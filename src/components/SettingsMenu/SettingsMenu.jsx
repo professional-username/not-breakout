@@ -1,18 +1,20 @@
 import "./SettingsMenu.scss"
-import {useSettings} from "../../hooks/useSettings.jsx";
-import {useSettingsContext} from "../../contexts/SettingsContext.jsx";
+import {SettingsProvider, useSettingsContext} from "../../contexts/SettingsContext.jsx";
 
-function IncrementButton({label, value, valueName, updateSettings}) {
+function IncrementButton({label, valueName, increment = 1}) {
+    const {settings, updateSettings} = useSettingsContext();
+    const value = settings[valueName];
+
     return (
         <div className={"incrementButton"}>
             <button
-                onClick={() => updateSettings({[valueName]: value - 1})}
+                onClick={() => updateSettings({[valueName]: value - increment})}
             >
                 -
             </button>
-            <div>{label}: {value}</div>
+            <div>{label}: {value.toFixed(2)}</div>
             <button
-                onClick={() => updateSettings({[valueName]: value + 1})}
+                onClick={() => updateSettings({[valueName]: value + increment})}
             >
                 +
             </button>
@@ -20,7 +22,8 @@ function IncrementButton({label, value, valueName, updateSettings}) {
     )
 }
 
-function ReloadButton({privateSettings, updateSettings}) {
+function ReloadButton({updateSettings}) {
+    const {settings: privateSettings} = useSettingsContext();
     return (
         <button
             onClick={() => updateSettings(privateSettings)}
@@ -31,14 +34,15 @@ function ReloadButton({privateSettings, updateSettings}) {
 }
 
 function SettingsMenu({reloadSettings}) {
-    const {settings} = useSettingsContext();
-    const [privateSettings, updatePrivateSettings] = useSettings(settings);
-
     return (
         <div className="settingsMenu">
-            <IncrementButton label="Colors" value={privateSettings.nColors} valueName="nColors"
-                             updateSettings={updatePrivateSettings}/>
-            <ReloadButton privateSettings={privateSettings} updateSettings={reloadSettings}/>
+            {/*Some settings are updated locally, then synced together with a button*/}
+            <SettingsProvider>
+                <IncrementButton label="Colors" valueName="nColors"/>
+                <IncrementButton label="Balls" valueName="nBallsPerColor"/>
+                <ReloadButton updateSettings={reloadSettings}/>
+            </SettingsProvider>
+            <IncrementButton label="Gravity" valueName="gravity" increment={0.1}/>
         </div>
     )
 }
