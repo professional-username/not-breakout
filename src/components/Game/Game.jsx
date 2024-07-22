@@ -33,13 +33,17 @@ function Game() {
 
     return (
         <div className="dashboard">
-            <GameData Balls={balls} Blocks={blocks}/>
+            <div className="sidePanel">
+                <GameData Balls={balls} Blocks={blocks}/>
+            </div>
             <div className="gameBoard" style={{height: settings.envSize, width: settings.envSize}}>
                 <Blocks blocks={blocks}/>
                 <Borders blocks={blocks}/>
                 <Balls balls={balls}/>
             </div>
-            <SettingsMenu reloadSettings={reloadSettings}/>
+            <div className="sidePanel">
+                <SettingsMenu reloadSettings={reloadSettings}/>
+            </div>
         </div>
     )
 }

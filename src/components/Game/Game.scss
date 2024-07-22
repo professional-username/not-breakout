@@ -1,18 +1,27 @@
 .dashboard {
-  display: grid;
+  display: flex;
   width: 100%;
-  grid-template-columns: 1fr 2.5fr 1fr;
-  justify-items: center;
+  height: 100%;
+  flex-direction: row;
+  justify-content: center;
   align-items: center;
+  box-sizing: border-box;
+  padding: 0 5% 0 5%;
 }
 
 .gameBoard {
-  // Center this in the grid cell
-  position: relative;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  background: black;
-  /*width: 200px;*/
-  /*height: 200px;*/
+  flex-grow: 1;
+}
+
+.sidePanel {
+  display: flex;
+  width: 30%;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
 }
