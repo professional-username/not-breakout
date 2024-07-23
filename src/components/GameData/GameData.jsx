@@ -4,9 +4,9 @@ import {useSettingsContext} from "../../contexts/SettingsContext.jsx";
 function ColorDisplay({values, label}) {
     return (
         <>
-            <div className="colorDisplayLabel">{label}</div>
-            {values.map((value, index) => <div key={index} className={`colorDisplayNumber color-${index}`}>
-                    {value}
+            <div className="game-data__row-label">{label}</div>
+            {values.map((value, index) => <div key={index} className={`game-data__element color-${index}`}>
+                    {value.toFixed(0)}
                 </div>
             )}
         </>
@@ -23,38 +23,44 @@ function GameData({Balls, Blocks}) {
         return blocksOfColor.length
     })
 
-    // Calculate the total speed of each set of balls
-    const ballEnergies = [...Array(nColors).keys()].map((color) => {
-        const ballsOfColor = Balls.filter((ball) => ball.color === color)
-        const speed = ballsOfColor.reduce((acc, ball) => acc + 0.5 * (ball.velocity[0] ** 2 + ball.velocity[1] ** 2) - 0.1 * (ball.position[1] - 194), 0)
-        // Format speed to 2 decimal places
-        return speed.toFixed(2)
-    })
-    const ballGEnergies = [...Array(nColors).keys()].map((color) => {
-        const ballsOfColor = Balls.filter((ball) => ball.color === color)
-        const speed = ballsOfColor.reduce((acc, ball) => acc + -0.1 * (ball.position[1] - 194), 0
-        )
-        // Format speed to 2 decimal places
-        return speed.toFixed(2)
+
+    // Filter out the balls of every color to do calculations on them
+    const ballsOfColor = [...Array(nColors).keys()].map((color) => {
+        return Balls.filter((ball) => ball.color === color);
     })
 
-    const ballMomentumsX = [...Array(nColors).keys()].map((color) => {
-        const ballsOfColor = Balls.filter((ball) => ball.color === color)
-        const speed = ballsOfColor.reduce((acc, ball) => acc + Math.abs(ball.velocity[0]), 0)
-        // Format speed to 2 decimal places
-        return speed.toFixed(2)
+    // Calculate KE of balls by color
+    const ballsKE = ballsOfColor.map((balls) => {
+        return balls.reduce((acc, ball) => acc + 0.5 * (ball.velocity[0] ** 2 + ball.velocity[1] ** 2), 0)
     })
 
-    const ballMomentumsY = [...Array(nColors).keys()].map((color) => {
-        const ballsOfColor = Balls.filter((ball) => ball.color === color)
-        const speed = ballsOfColor.reduce((acc, ball) => acc + Math.abs(ball.velocity[1]), 0)
-        // Format speed to 2 decimal places
-        return speed.toFixed(2)
+    // Calculate GPE of balls by color
+    const gravity = settings.gravity;
+    const floorHeight = settings.envSize / 2;
+    const ballsGPE = ballsOfColor.map((balls) => {
+        return balls.reduce((acc, ball) => acc - gravity * (ball.position[1] - floorHeight), 0)
     })
 
-    return (<div className="gameData" style={{gridTemplateColumns: `2fr repeat(${nColors}, 1fr)`}}>
+    // Calculate total energy of balls by color
+    const ballsTE = ballsKE.map((ballKE, index) => {
+        const ballGPE = ballsGPE[index];
+        return ballKE + ballGPE;
+    })
+
+
+    // Calculate the ratios
+    const totalArea = Blocks.length;
+    const areaRatios = colorAreas.map((area) => 100 * area / totalArea)
+    const totalEnergy = ballsTE.reduce((acc, energy) => acc + energy, 0)
+    const energyRatios = ballsTE.map((energy) => 100 * energy / totalEnergy)
+
+    // TODO: Implement area-based order
+
+    return (<div className="game-data" style={{gridTemplateColumns: `2fr repeat(${nColors}, 1fr)`}}>
         <ColorDisplay values={colorAreas} label="Area"/>
-        {/*<ColorDisplay values={ballEnergies} label="KE"/>*/}
+        <ColorDisplay values={ballsTE} label="Energy"/>
+        <ColorDisplay values={areaRatios} label="Area Ratios"/>
+        <ColorDisplay values={energyRatios} label="Energy Ratios"/>
         {/*<ColorDisplay values={ballGEnergies} label="GPE"/>*/}
         {/*<ColorDisplay values={ballMomentumsX} label="MomentumsX"/>*/}
         {/*<ColorDisplay values={ballMomentumsY} label="MomentumsY"/>*/}
