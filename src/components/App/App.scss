@@ -8,63 +8,6 @@
   justify-content: start;
 }
 
-$color-element-0: #5e81ac;
-$color-element-1: #bf616a;
-$color-element-2: #d08770;
-$color-element-3: #ebcb8b;
-$color-element-4: #a3be8c;
-$color-element-5: #8fbcbb;
-$color-element-6: #88c0d0;
-$color-element-7: #81a1c1;
-$color-element-8: #b48ead;
-
-$background-lighten: 5%;
-
-.color-0 {
-  --element-color: #{$color-element-0};
-  --element-background-color: #{lighten($color-element-0, $background-lighten)};
-}
-
-.color-1 {
-  --element-color: #{$color-element-1};
-  --element-background-color: #{lighten($color-element-1, $background-lighten)};
-}
-
-.color-2 {
-  --element-color: #{$color-element-2};
-  --element-background-color: #{lighten($color-element-2, $background-lighten)};
-}
-
-.color-3 {
-  --element-color: #{$color-element-3};
-  --element-background-color: #{lighten($color-element-3, $background-lighten)};
-}
-
-.color-4 {
-  --element-color: #{$color-element-4};
-  --element-background-color: #{lighten($color-element-4, $background-lighten)};
-}
-
-.color-5 {
-  --element-color: #{$color-element-5};
-  --element-background-color: #{lighten($color-element-5, $background-lighten)};
-}
-
-.color-6 {
-  --element-color: #{$color-element-6};
-  --element-background-color: #{lighten($color-element-6, $background-lighten)};
-}
-
-.color-7 {
-  --element-color: #{$color-element-7};
-  --element-background-color: #{lighten($color-element-7, $background-lighten)};
-}
-
-.color-8 {
-  --element-color: #{$color-element-8};
-  --element-background-color: #{lighten($color-element-8, $background-lighten)};
-}
-
 .App {
   display: flex;
   width: 100%;

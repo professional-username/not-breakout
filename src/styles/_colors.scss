@@ -1,0 +1,20 @@
+$colors: (
+        0: #5e81ac,
+        1: #bf616a,
+        2: #d08770,
+        3: #ebcb8b,
+        4: #a3be8c,
+        5: #8fbcbb,
+        6: #88c0d0,
+        7: #81a1c1,
+        8: #b48ead
+);
+
+$background-lighten: 5%;
+
+@each $key, $color in $colors {
+  .color-#{$key} {
+    --element-color: #{$color};
+    --element-background-color: #{lighten($color, $background-lighten)};
+  }
+}
