@@ -20,7 +20,7 @@ const setupBlocks = (settings) => {
                 position: position,
                 id: id,
                 active: true,
-                color: 0,
+
                 borders: {
                     left: false,
                     right: false,
