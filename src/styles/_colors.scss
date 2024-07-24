@@ -1,20 +1,22 @@
-$colors: (
-        0: #5e81ac,
-        1: #bf616a,
-        2: #d08770,
-        3: #ebcb8b,
-        4: #a3be8c,
-        5: #8fbcbb,
-        6: #88c0d0,
-        7: #81a1c1,
-        8: #b48ead
+@import "node_modules/nord/src/sass/nord.scss";
+
+$element-colors: (
+        0: $nord10,
+        1: $nord11,
+        2: $nord12,
+        3: $nord13,
+        4: $nord14,
+        5: $nord7,
+        6: $nord8,
+        7: $nord9,
+        8: $nord15
 );
 
-$background-lighten: 5%;
+$element-background-lighten: 5%;
 
-@each $key, $color in $colors {
+@each $key, $color in $element-colors {
   .color-#{$key} {
     --element-color: #{$color};
-    --element-background-color: #{lighten($color, $background-lighten)};
+    --element-background-color: #{lighten($color, $element-background-lighten)};
   }
 }
