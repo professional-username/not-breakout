@@ -1,4 +1,13 @@
-@import "node_modules/nord/src/sass/nord.scss";
+@import "/node_modules/nord/src/sass/nord.scss";
+
+:root {
+  --background-primary: #{$nord0};
+  --background-secondary: #{$nord1};
+  --background-tertiary: #{$nord2};
+  --text-primary: #{$nord4};
+  --text-secondary: #{$nord6};
+  --text-tertiary: #{$nord3};
+}
 
 $element-colors: (
         0: $nord10,
