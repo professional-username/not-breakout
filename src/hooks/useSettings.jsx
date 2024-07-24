@@ -6,7 +6,8 @@ const defaultSettings = {
     ballRadius: 7,
     nColors: 4,
     nBallsPerColor: 2,
-    gravity: 0.2,
+    gravity: 0,
+    enableBorders: true,
 }
 
 export function useSettings(initialSettings = defaultSettings) {
