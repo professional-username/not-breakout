@@ -154,7 +154,7 @@ export function useBalls() {
                     velocity: updatedVelocity,
                 };
             }
-        )
+        );
         setBalls(updatedBalls);
     }
 
