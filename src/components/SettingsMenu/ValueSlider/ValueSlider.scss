@@ -1,0 +1,40 @@
+.value-slider {
+    display: flex;
+    flex-direction: row;
+}
+
+.value-slider__label {
+    display: flex;
+    flex-direction: row;
+    width: 5rem;
+}
+.value-slider__value {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 5rem;
+}
+
+.value-slider__slider {
+    //border: red 1px solid;
+    width: 10rem;
+    height: 1em;
+    flex-grow: 1;
+
+    .track {
+        background: var(--text-primary);
+        //border: var(--background-secondary) 0.1em solid;
+
+        top: 0.4em;
+        height: 0.1em;
+        border-radius: 0.15em;
+    }
+
+    .thumb {
+        width: 0.9em;
+        height: 0.9em;
+        background: var(--text-primary);
+        cursor: pointer;
+        border-radius: 50%;
+    }
+}

@@ -1,84 +1,11 @@
-import "./SettingsMenu.scss";
+import ValueSlider from "./ValueSlider/ValueSlider";
+import ValueCheckbox from "./ValueCheckbox/ValueCheckbox";
+import ReloadButton from "./ReloadButton/ReloadButton";
 import {
     SettingsProvider,
     useSettingsContext,
 } from "../../contexts/SettingsContext.jsx";
-import ReactSlider from "react-slider";
-
-function ValueSlider({ label, valueName, increment, min, max }) {
-    const { settings, updateSettings } = useSettingsContext();
-    const value = settings[valueName];
-    const handleSliderChange = (value) => {
-        updateSettings({ [valueName]: value });
-    };
-
-    return (
-        <div className="settings-menu__slider-box">
-            <div className="settings-menu__slider-label">{label}</div>
-            <div className="settings-menu__slider-value">{value}</div>
-            <ReactSlider
-                className="settings-menu__slider"
-                marks
-                min={min}
-                max={max}
-                step={increment}
-                value={value}
-                onChange={handleSliderChange}
-            />
-        </div>
-    );
-}
-
-function ValueCheckbox({ label, valueName }) {
-    const { settings, updateSettings } = useSettingsContext();
-    const value = settings[valueName];
-
-    return (
-        <div className="settings-menu__checkbox-box">
-            <div className="settings-menu__checkbox-label">{label}</div>
-            <input
-                className="settings-menu__checkbox"
-                type="checkbox"
-                checked={value}
-                onChange={() => updateSettings({ [valueName]: !value })}
-            />
-        </div>
-    );
-}
-
-function IncrementButton({ label, valueName, increment = 1, min, max }) {
-    const { settings, updateSettings } = useSettingsContext();
-    const value = settings[valueName];
-
-    return (
-        <div className={"settings-menu__increment"}>
-            <button
-                onClick={() =>
-                    updateSettings({ [valueName]: value - increment })
-                }
-            >
-                -
-            </button>
-            <div>
-                {label}: {value.toFixed(2)}
-            </div>
-            <button
-                onClick={() =>
-                    updateSettings({ [valueName]: value + increment })
-                }
-            >
-                +
-            </button>
-        </div>
-    );
-}
-
-function ReloadButton({ updateSettings }) {
-    const { settings: privateSettings } = useSettingsContext();
-    return (
-        <button onClick={() => updateSettings(privateSettings)}>Reload</button>
-    );
-}
+import "./SettingsMenu.scss";
 
 function SettingsMenu({ reloadSettings }) {
     return (
