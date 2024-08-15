@@ -1,12 +1,12 @@
 .blocks {
-  position: absolute;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .block {
-  position: absolute;
-  color: var(--element-background-color);
-  background: var(--element-background-color);
+    position: absolute;
+    color: var(--element-background-color);
+    background: var(--element-background-color);
 }

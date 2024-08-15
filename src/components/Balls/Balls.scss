@@ -1,18 +1,17 @@
 .balls {
-  position: absolute;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .ball {
-  position: absolute;
-  /*transform: scale(var(--play-area-scale));*/
-  border-radius: 50%;
+    position: absolute;
+    /*transform: scale(var(--play-area-scale));*/
+    border-radius: 50%;
 
-  border: 2px solid #2e3440;
+    border: 2px solid #2e3440;
 
-  color: var(--element-color);
-  background: var(--element-color);
+    color: var(--element-color);
+    background: var(--element-color);
 }
-

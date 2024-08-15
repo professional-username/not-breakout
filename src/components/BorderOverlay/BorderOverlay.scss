@@ -1,12 +1,12 @@
 .borders {
-  position: absolute;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .border {
-  position: absolute;
-  --border-color: #2e3440;
-  //border: 2px solid var(--border-color);
+    position: absolute;
+    --border-color: #2e3440;
+    //border: 2px solid var(--border-color);
 }
