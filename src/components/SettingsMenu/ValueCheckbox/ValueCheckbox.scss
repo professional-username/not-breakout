@@ -7,11 +7,47 @@
 .value-checkbox__label {
     display: flex;
     flex-direction: row;
-    width: 10rem;
+    width: 10em;
 }
 
 .value-checkbox__checkbox {
+    display: none;
+}
+
+.value-checkbox__pill {
     display: flex;
     flex-direction: row;
-    width: 10rem;
+    width: 2.8em;
+    margin: 0 3.5em;
+    border-radius: 2em;
+
+    transition: background-color 0.3s;
+    cursor: pointer;
+
+    position: relative;
+    align-items: center;
+    border: 0.1em solid var(--text-primary);
+}
+
+.value-checkbox__pill-knob {
+    width: 0.8em;
+    height: 0.8em;
+    border-radius: 50%;
+    background-color: var(--text-primary);
+    position: absolute;
+    left: 0.2em;
+    transition:
+        background-color 0.3s,
+        left 0.3s;
+}
+
+input[type="checkbox"]:checked + .value-checkbox__pill {
+    background-color: var(--text-primary);
+}
+
+input[type="checkbox"]:checked
+    + .value-checkbox__pill
+    .value-checkbox__pill-knob {
+    left: calc(100% - 0.2em - 0.8em);
+    background-color: var(--background-primary);
 }
