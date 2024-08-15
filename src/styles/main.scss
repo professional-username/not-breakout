@@ -1,7 +1,8 @@
 @import "colors";
+@import "@fontsource-variable/jetbrains-mono";
 
 :root {
-    font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+    font-family: "JetBrains Mono Variable", monospace;
 
     color-scheme: light dark;
     color: var(--text-primary);
