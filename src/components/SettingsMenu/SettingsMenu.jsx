@@ -35,6 +35,30 @@ function SettingsMenu({ reloadSettings }) {
                     increment={0.1}
                 />
 
+                <ValueSlider
+                    label="Ball Radius"
+                    valueName="ballRadius"
+                    min={1}
+                    max={10}
+                    increment={1}
+                />
+
+                <ValueSlider
+                    label="Block Size"
+                    valueName="blockSize"
+                    min={20}
+                    max={30}
+                    increment={5}
+                />
+
+                <ValueSlider
+                    label="Borad Size"
+                    valueName="envSize"
+                    min={300}
+                    max={600}
+                    increment={10}
+                />
+
                 <ValueCheckbox label="Walls" valueName="enableBorders" />
 
                 <ReloadButton updateSettings={reloadSettings} />
