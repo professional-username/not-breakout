@@ -11,6 +11,7 @@ const defaultSettings = {
     enableBorders: true,
 };
 
+// Some settings are derived from others
 const settingDependencies = {
     envSize: (settings) => {
         const { blocksPerSide, blockSize } = settings;
@@ -21,12 +22,12 @@ const settingDependencies = {
     },
 };
 
+// We generate the dependant settings by iterating over the dependencies
 const generateDependantSettings = (settings) => {
     var dependantSettings = {};
     for (const s in settingDependencies) {
         console.log(s);
         const depSetting = settingDependencies[s](settings);
-        // console.log(new Error().stack);
         if (depSetting !== NaN) {
             dependantSettings[s] = depSetting;
         }
@@ -35,18 +36,28 @@ const generateDependantSettings = (settings) => {
 };
 
 export function useSettings(initialSettings = defaultSettings) {
-    // console.log("useSettings hook");
-    const [settings, setSettings] = useState(initialSettings);
+    const fullInitialSettings = {
+        ...initialSettings,
+        ...generateDependantSettings(initialSettings),
+    };
+    const [settings, setSettings] = useState(fullInitialSettings);
 
     const updateSettings = useCallback((newSettings) => {
-        // const newDependantSettings = generateDependantSettings(newSettings);
-        // console.log(newDependantSettings);
-        setSettings((prevSettings) => ({
-            // ...newDependantSettings,
-            ...prevSettings,
-            ...newSettings,
-        }));
-        console.log(settings);
+        setSettings((prevSettings) => {
+            // Combine the old settings with the new
+            const newCombinedSettings = {
+                ...prevSettings,
+                ...newSettings,
+            };
+            // Generate the dependant settings
+            const newDependantSettings =
+                generateDependantSettings(newCombinedSettings);
+            // Add the dependant settings on
+            return {
+                ...newCombinedSettings,
+                ...newDependantSettings,
+            };
+        });
     });
 
     return [settings, updateSettings];
