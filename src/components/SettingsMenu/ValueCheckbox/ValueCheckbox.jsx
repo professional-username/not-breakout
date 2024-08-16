@@ -9,20 +9,21 @@ function ValueCheckbox({ label, valueName }) {
         <div className="value-checkbox">
             <div className="value-checkbox__label">{label}</div>
 
-            <input
-                id={`checkbox-${valueName}`}
-                className="value-checkbox__checkbox"
-                type="checkbox"
-                checked={value}
-                onChange={() => updateSettings({ [valueName]: !value })}
-            />
-
-            <label
-                htmlFor={`checkbox-${valueName}`}
-                className="value-checkbox__pill"
-            >
-                <div className="value-checkbox__pill-knob"></div>
-            </label>
+            <div className="value-checkbox__pill-container">
+                <input
+                    id={`checkbox-${valueName}`}
+                    className="value-checkbox__checkbox"
+                    type="checkbox"
+                    checked={value}
+                    onChange={() => updateSettings({ [valueName]: !value })}
+                />
+                <label
+                    htmlFor={`checkbox-${valueName}`}
+                    className="value-checkbox__pill"
+                >
+                    <div className="value-checkbox__pill-knob"></div>
+                </label>
+            </div>
         </div>
     );
 }
