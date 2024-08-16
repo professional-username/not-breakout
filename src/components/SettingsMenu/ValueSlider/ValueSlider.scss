@@ -1,11 +1,14 @@
 .value-slider {
+    height: 1.5em;
     display: flex;
     flex-direction: row;
+    align-items: center;
 }
 
 .value-slider__label {
     display: flex;
     flex-direction: row;
+    justify-content: end;
     width: 7em;
     flex-grow: 0;
     flex-shrink: -1;
@@ -19,27 +22,49 @@
     flex-shrink: -1;
 }
 
-.value-slider__slider {
-    //border: red 1px solid;
+.value-slider__slider-box {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
     width: 10em;
-    height: 1em;
+    height: 1.1em;
+
+    border: var(--text-primary) 0.1em solid;
+    border-radius: 1em;
+    transition: background-color 0.3s;
+
     flex-grow: 0;
     flex-shrink: -1;
+}
 
-    .track {
-        background: var(--text-primary);
-        //border: var(--background-secondary) 0.1em solid;
+.value-slider__slider-box:has(.thumb:focus),
+.value-slider__slider-box:has(.thumb:hover) {
+    background: var(--text-primary);
+}
 
-        top: 0.4em;
-        height: 0.1em;
-        border-radius: 0.15em;
-    }
+.value-slider__slider {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 9.5em;
+    height: 1.2em;
+    position: absolute;
 
     .thumb {
-        width: 0.9em;
-        height: 0.9em;
+        width: 0.8em;
+        height: 0.8em;
         background: var(--text-primary);
         cursor: pointer;
         border-radius: 50%;
+        transition:
+            background-color 0.3s,
+            left 0.1s;
+    }
+
+    .thumb:hover,
+    .thumb:focus {
+        background: var(--background-primary);
+        outline: none;
     }
 }

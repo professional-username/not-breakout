@@ -13,15 +13,16 @@ function ValueSlider({ label, valueName, increment, min, max }) {
         <div className="value-slider">
             <div className="value-slider__label">{label}</div>
             <div className="value-slider__value">{value}</div>
-            <ReactSlider
-                className="value-slider__slider"
-                marks
-                min={min}
-                max={max}
-                step={increment}
-                value={value}
-                onChange={handleSliderChange}
-            />
+            <div className="value-slider__slider-box">
+                <ReactSlider
+                    className="value-slider__slider"
+                    min={min}
+                    max={max}
+                    step={increment}
+                    value={value}
+                    onChange={handleSliderChange}
+                />
+            </div>
         </div>
     );
 }
