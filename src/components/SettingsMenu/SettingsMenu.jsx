@@ -1,10 +1,7 @@
 import ValueSlider from "./ValueSlider/ValueSlider";
 import ValueCheckbox from "./ValueCheckbox/ValueCheckbox";
 import ReloadButton from "./ReloadButton/ReloadButton";
-import {
-    SettingsProvider,
-    useSettingsContext,
-} from "../../contexts/SettingsContext.jsx";
+import { SettingsProvider } from "../../contexts/SettingsContext.jsx";
 import "./SettingsMenu.scss";
 import { memo } from "react";
 
@@ -54,10 +51,10 @@ const SettingsMenu = memo(({ reloadSettings }) => {
                 />
 
                 <ValueSlider
-                    label="Borad Size"
+                    label="Board Size"
                     valueName="blocksPerSide"
-                    min={20}
-                    max={30}
+                    min={10}
+                    max={25}
                     increment={1}
                 />
 
