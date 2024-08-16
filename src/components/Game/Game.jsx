@@ -8,6 +8,7 @@ import Balls from "/src/components/Balls/Balls";
 import Borders from "/src/components/BorderOverlay/BorderOverlay";
 import GameData from "../GameData/GameData.jsx";
 import SettingsMenu from "../SettingsMenu/SettingsMenu.jsx";
+import { useCallback } from "react";
 
 function Game() {
     const { settings, updateSettings } = useSettingsContext();
@@ -15,11 +16,15 @@ function Game() {
     const [blocks, updateBlocks, resetBlocks] = useBlocks();
 
     // A function to reload the settings and reset the game using them
-    const reloadSettings = (newSettings) => {
-        updateSettings(newSettings);
-        resetBalls(newSettings);
-        resetBlocks(newSettings);
-    };
+    const reloadSettings = useCallback(
+        (newSettings) => {
+            console.log(newSettings);
+            updateSettings(newSettings);
+            resetBalls(newSettings);
+            resetBlocks(newSettings);
+        },
+        [updateSettings, resetBalls, resetBlocks],
+    );
 
     useEffect(() => {
         const interval = setInterval(() => {

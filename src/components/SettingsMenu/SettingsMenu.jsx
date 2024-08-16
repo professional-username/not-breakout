@@ -6,8 +6,10 @@ import {
     useSettingsContext,
 } from "../../contexts/SettingsContext.jsx";
 import "./SettingsMenu.scss";
+import { memo } from "react";
 
-function SettingsMenu({ reloadSettings }) {
+const SettingsMenu = memo(({ reloadSettings }) => {
+    console.log("reloading settings menu");
     return (
         <div className="settings-menu">
             <SettingsProvider>
@@ -53,10 +55,10 @@ function SettingsMenu({ reloadSettings }) {
 
                 <ValueSlider
                     label="Borad Size"
-                    valueName="envSize"
-                    min={300}
-                    max={600}
-                    increment={10}
+                    valueName="blocksPerSide"
+                    min={20}
+                    max={30}
+                    increment={1}
                 />
 
                 <ValueCheckbox label="Walls" valueName="enableBorders" />
@@ -65,6 +67,6 @@ function SettingsMenu({ reloadSettings }) {
             </SettingsProvider>
         </div>
     );
-}
+});
 
 export default SettingsMenu;

@@ -1,11 +1,11 @@
-import {useState} from "react";
-import {isColliding} from "/src/utils/isColliding"
-import {useSettingsContext} from "../contexts/SettingsContext.jsx";
+import { useState, useCallback } from "react";
+import { isColliding } from "/src/utils/isColliding";
+import { useSettingsContext } from "../contexts/SettingsContext.jsx";
 
 const setupBlocks = (settings) => {
-    const {envSize, blockSize, ...props} = settings;
+    const { envSize, blockSize, ...props } = settings;
     const blocksPerSide = Math.floor(envSize / blockSize);
-    const maxBlockOffset = blocksPerSide * blockSize / 2;
+    const maxBlockOffset = (blocksPerSide * blockSize) / 2;
 
     const initialBlocks = [];
     for (let row = 0; row <= blocksPerSide; row++) {
@@ -14,7 +14,7 @@ const setupBlocks = (settings) => {
                 x: -maxBlockOffset + col * blockSize,
                 y: -maxBlockOffset + row * blockSize,
             };
-            const id = `${row}-${col}`
+            const id = `${row}-${col}`;
             initialBlocks.push({
                 size: blockSize,
                 position: position,
@@ -26,17 +26,16 @@ const setupBlocks = (settings) => {
                     right: false,
                     top: false,
                     bottom: false,
-                }
+                },
             });
         }
     }
 
-
-    return initialBlocks
-}
+    return initialBlocks;
+};
 
 export function useBlocks() {
-    const {settings} = useSettingsContext();
+    const { settings } = useSettingsContext();
     // Generate blocks to fill the settings
     const [blocks, setBlocks] = useState(setupBlocks(settings));
 
@@ -47,36 +46,44 @@ export function useBlocks() {
             let newColor = block.color;
             balls.forEach((ball) => {
                 if (isColliding(ball, block)) {
-                    newColor = ball.color
+                    newColor = ball.color;
                 }
-            })
+            });
             return {
                 ...block,
                 color: newColor,
             };
-        })
+        });
 
         const updatedBorderBlocks = updatedColorBlocks.map((block, index) => {
             // Top borders
-            const blocksPerSide = Math.floor(settings.envSize / settings.blockSize);
+            const blocksPerSide = Math.floor(
+                settings.envSize / settings.blockSize,
+            );
             let borderTop = false;
             if (index > blocksPerSide) {
-                borderTop = (block.color !== updatedColorBlocks[index - blocksPerSide - 1].color);
+                borderTop =
+                    block.color !==
+                    updatedColorBlocks[index - blocksPerSide - 1].color;
             }
             let borderBottom = false;
             if (index < updatedColorBlocks.length - blocksPerSide - 1) {
-                borderBottom = (block.color !== updatedColorBlocks[index + blocksPerSide + 1].color);
+                borderBottom =
+                    block.color !==
+                    updatedColorBlocks[index + blocksPerSide + 1].color;
             }
 
             // Left and Right Borders
-            const blockCol = block.id.split('-')[1];
+            const blockCol = block.id.split("-")[1];
             let borderLeft = false;
             if (blockCol !== "0") {
-                borderLeft = (block.color !== updatedColorBlocks[index - 1].color);
+                borderLeft =
+                    block.color !== updatedColorBlocks[index - 1].color;
             }
             let borderRight = false;
             if (blockCol !== `${blocksPerSide}`) {
-                borderRight = (block.color !== updatedColorBlocks[index + 1].color);
+                borderRight =
+                    block.color !== updatedColorBlocks[index + 1].color;
             }
 
             return {
@@ -86,16 +93,19 @@ export function useBlocks() {
                     bottom: borderBottom,
                     left: borderLeft,
                     right: borderRight,
-                }
+                },
             };
-        })
+        });
 
         setBlocks(updatedBorderBlocks);
     };
 
-    const resetBlocks = (newSettings) => {
-        setBlocks(setupBlocks(newSettings));
-    }
+    const resetBlocks = useCallback(
+        (newSettings) => {
+            setBlocks(setupBlocks(newSettings));
+        },
+        [setBlocks, setupBlocks],
+    );
 
     return [blocks, updateBlocks, resetBlocks];
 }
