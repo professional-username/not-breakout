@@ -36,7 +36,7 @@ function Game() {
             </div>
             <div
                 className="gameBoard"
-                style={{ height: settings.envSize, width: settings.envSize }}
+                style={{ fontSize: 500 / settings.envSize }}
             >
                 <Blocks blocks={blocks} />
                 <Borders blocks={blocks} />
