@@ -6,20 +6,25 @@
 .value-slider__label {
     display: flex;
     flex-direction: row;
-    width: 5rem;
+    width: 7em;
+    flex-grow: 0;
+    flex-shrink: -1;
 }
 .value-slider__value {
     display: flex;
     flex-direction: row;
     justify-content: center;
-    width: 5rem;
+    width: 3em;
+    flex-grow: 0;
+    flex-shrink: -1;
 }
 
 .value-slider__slider {
     //border: red 1px solid;
-    width: 10rem;
+    width: 10em;
     height: 1em;
-    flex-grow: 1;
+    flex-grow: 0;
+    flex-shrink: -1;
 
     .track {
         background: var(--text-primary);
