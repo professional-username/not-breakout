@@ -20,14 +20,17 @@
 
     transition:
         background-color 0.3s,
-        color 0.3s;
+        color 0.3s,
+        transform 0.2s ease;
     cursor: pointer;
 }
 
-.reload-button__button:hover {
+.reload-button__button:hover,
+.reload-button__button:focus {
     color: var(--background-primary);
     border: var(--text-primary) 0.1em solid;
     background: var(--text-primary);
+    outline: none;
 
     .reload-button__icon {
         transform: rotate(180deg);
@@ -36,4 +39,8 @@
 
 .reload-button__icon {
     transition: transform 0.3s;
+}
+
+.reload-button__button--active {
+    transform: scale(1.1);
 }
