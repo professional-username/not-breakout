@@ -7,6 +7,5 @@
 
 .border {
     position: absolute;
-    --border-color: #2e3440;
-    //border: 2px solid var(--border-color);
+    --border-color: var(--background-primary);
 }

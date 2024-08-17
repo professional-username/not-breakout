@@ -7,10 +7,9 @@
 
 .ball {
     position: absolute;
-    /*transform: scale(var(--play-area-scale));*/
     border-radius: 50%;
 
-    border: 2em solid #2e3440;
+    border: solid var(--background-primary);
 
     color: var(--element-color);
     background: var(--element-color);

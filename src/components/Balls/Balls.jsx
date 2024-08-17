@@ -16,8 +16,9 @@ function Ball({ ...ballParams }) {
             className={`ball color-${ballParams.color}`}
             style={{
                 translate: `${ballParams.position[0]}em ${ballParams.position[1]}em`,
-                width: `${ballParams.radius * 2}em`,
-                height: `${ballParams.radius * 2}em`,
+                width: `${ballParams.radius * 2 * 0.85}em`,
+                height: `${ballParams.radius * 2 * 0.85}em`,
+                borderWidth: `${ballParams.radius * 2 * 0.15}em`,
             }}
         />
     );

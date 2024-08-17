@@ -11,6 +11,7 @@ function Borders({ blocks }) {
 }
 
 function BorderBlock({ ...blockParams }) {
+    const borderWidth = blockParams.size * 0.05;
     return (
         <div
             className="border"
@@ -20,17 +21,17 @@ function BorderBlock({ ...blockParams }) {
                 height: `${blockParams.size}em`,
 
                 borderLeft: blockParams.borders.left
-                    ? "1em solid var(--border-color)"
-                    : "1em solid transparent",
+                    ? `${borderWidth}em solid var(--border-color)`
+                    : `${borderWidth}em solid transparent`,
                 borderTop: blockParams.borders.top
-                    ? "1em solid var(--border-color)"
-                    : "1em solid transparent",
+                    ? `${borderWidth}em solid var(--border-color)`
+                    : `${borderWidth}em solid transparent`,
                 borderRight: blockParams.borders.right
-                    ? "1em solid var(--border-color)"
-                    : "1em solid transparent",
+                    ? `${borderWidth}em solid var(--border-color)`
+                    : `${borderWidth}em solid transparent`,
                 borderBottom: blockParams.borders.bottom
-                    ? "1em solid var(--border-color)"
-                    : "1em solid transparent",
+                    ? `${borderWidth}em solid var(--border-color)`
+                    : `${borderWidth}em solid transparent`,
             }}
         />
     );
