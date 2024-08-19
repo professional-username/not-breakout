@@ -35,6 +35,14 @@ const SettingsMenu = memo(({ reloadSettings }) => {
                 />
 
                 <ValueSlider
+                    label="Ball Speed"
+                    valueName="ballMaxVelocity"
+                    min={1}
+                    max={20}
+                    increment={1}
+                />
+
+                <ValueSlider
                     label="Ball Radius"
                     valueName="ballRadius"
                     min={1}

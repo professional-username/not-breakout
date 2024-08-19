@@ -6,6 +6,7 @@ const defaultSettings = {
     blockSize: 20, // Side length
     ballRadius: 7,
     nColors: 4,
+    ballMaxVelocity: 8,
     nBallsPerColor: 2,
     gravity: 0,
     enableBorders: true,

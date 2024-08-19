@@ -3,8 +3,14 @@ import { isColliding } from "/src/utils/isColliding";
 import { useSettingsContext } from "../contexts/SettingsContext.jsx";
 
 const setupBalls = (settings) => {
-    const { ballRadius, envSize, nBallsPerColor, nColors, ...props } = settings;
-    const maxVelocity = 8;
+    const {
+        ballMaxVelocity,
+        ballRadius,
+        envSize,
+        nBallsPerColor,
+        nColors,
+        ...props
+    } = settings;
     const nBalls = nBallsPerColor * nColors;
     const initialOffset = 0.1; // to prevent balls from bouncing on corners
     const initialBalls = Array.from({ length: nBalls }, (_, index) => ({
@@ -16,8 +22,8 @@ const setupBalls = (settings) => {
         // is always positive in both directions, but because the balls
         // bounce immediately in the current implementation, this doesn't matter.
         velocity: [
-            Math.max(Math.random() * maxVelocity, 0.02 * maxVelocity),
-            Math.max(Math.random() * maxVelocity, 0.02 * maxVelocity),
+            Math.max(Math.random() * ballMaxVelocity, 0.02 * ballMaxVelocity),
+            Math.max(Math.random() * ballMaxVelocity, 0.02 * ballMaxVelocity),
         ],
         radius: ballRadius,
         id: index,
