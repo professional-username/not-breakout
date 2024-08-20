@@ -11,7 +11,13 @@ function App() {
                     <Game />
                 </SettingsProvider>
             </main>
-            <footer>You opened this can of worms, now lie in it</footer>
+            <footer>
+                <a href="https://github.com/professional-username/not-breakout">
+                    Source
+                </a>
+                {" | "}
+                <a href="https://pong-wars.vercel.app/">Inspiration</a>
+            </footer>
         </div>
     );
 }
