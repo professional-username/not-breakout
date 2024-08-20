@@ -1,6 +1,7 @@
 import ValueSlider from "./ValueSlider/ValueSlider";
 import ValueCheckbox from "./ValueCheckbox/ValueCheckbox";
 import ReloadButton from "./ReloadButton/ReloadButton";
+import MoreSettingsButton from "./MoreSettingsButton/MoreSettingsButton";
 import { SettingsProvider } from "../../contexts/SettingsContext.jsx";
 import "./SettingsMenu.scss";
 import { memo } from "react";
@@ -34,37 +35,39 @@ const SettingsMenu = memo(({ reloadSettings }) => {
                     increment={0.1}
                 />
 
-                <ValueSlider
-                    label="Ball Speed"
-                    valueName="ballMaxVelocity"
-                    min={1}
-                    max={20}
-                    increment={1}
-                />
+                <MoreSettingsButton>
+                    <ValueSlider
+                        label="Ball Speed"
+                        valueName="ballMaxVelocity"
+                        min={1}
+                        max={20}
+                        increment={1}
+                    />
 
-                <ValueSlider
-                    label="Ball Radius"
-                    valueName="ballRadius"
-                    min={1}
-                    max={10}
-                    increment={1}
-                />
+                    <ValueSlider
+                        label="Ball Radius"
+                        valueName="ballRadius"
+                        min={1}
+                        max={10}
+                        increment={1}
+                    />
 
-                <ValueSlider
-                    label="Block Size"
-                    valueName="blockSize"
-                    min={20}
-                    max={30}
-                    increment={5}
-                />
+                    <ValueSlider
+                        label="Block Size"
+                        valueName="blockSize"
+                        min={20}
+                        max={30}
+                        increment={5}
+                    />
 
-                <ValueSlider
-                    label="Board Size"
-                    valueName="blocksPerSide"
-                    min={10}
-                    max={25}
-                    increment={1}
-                />
+                    <ValueSlider
+                        label="Board Size"
+                        valueName="blocksPerSide"
+                        min={10}
+                        max={25}
+                        increment={1}
+                    />
+                </MoreSettingsButton>
 
                 <ValueCheckbox label="Walls" valueName="enableBorders" />
 
