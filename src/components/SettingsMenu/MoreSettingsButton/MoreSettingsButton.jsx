@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowDown } from "@fortawesome/free-solid-svg-icons";
+import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
 import "./MoreSettingsButton.scss";
 
 function MoreSettingsButton({ children }) {
@@ -10,7 +10,7 @@ function MoreSettingsButton({ children }) {
 
     const handleClick = () => {
         setOpenAnchor((previousState) => !previousState);
-        setOpenState(openAnchor);
+        setOpenState(openAnchor ? openAnchor : openState);
     };
 
     const handleHoverEnter = () => {
@@ -47,7 +47,7 @@ function MoreSettingsButton({ children }) {
                         more-settings__button-icon
                         more-settings__button-icon--${openAnchor ? "open" : "closed"}
                     `}
-                    icon={faArrowDown}
+                    icon={faCaretDown}
                 />
             </button>
         </div>

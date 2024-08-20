@@ -35,6 +35,8 @@ const SettingsMenu = memo(({ reloadSettings }) => {
                     increment={0.1}
                 />
 
+                <ValueCheckbox label="Walls" valueName="enableBorders" />
+
                 <MoreSettingsButton>
                     <ValueSlider
                         label="Ball Speed"
@@ -68,8 +70,6 @@ const SettingsMenu = memo(({ reloadSettings }) => {
                         increment={1}
                     />
                 </MoreSettingsButton>
-
-                <ValueCheckbox label="Walls" valueName="enableBorders" />
 
                 <ReloadButton updateSettings={reloadSettings} />
             </SettingsProvider>
