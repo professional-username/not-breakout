@@ -19,3 +19,24 @@ body {
     display: flex;
     place-items: center;
 }
+
+button {
+    color: var(--text-primary);
+    border: var(--text-primary) 0.1em solid;
+    background: var(--background-primary);
+    border-radius: 20%;
+
+    transition:
+        background-color 0.3s,
+        color 0.3s,
+        transform 0.2s ease;
+    cursor: pointer;
+}
+
+button:hover,
+button:focus {
+    color: var(--background-primary);
+    border: var(--text-primary) 0.1em solid;
+    background: var(--text-primary);
+    outline: none;
+}

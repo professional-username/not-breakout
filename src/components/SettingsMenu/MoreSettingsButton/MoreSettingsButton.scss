@@ -19,19 +19,6 @@
     height: 2em;
     margin-left: 15em;
     margin-right: 8em;
-
-    color: var(--text-primary);
-    border: var(--text-primary) 0.1em solid;
-    background: var(--background-primary);
-    border-radius: 20%;
-}
-
-.more-settings__button:hover,
-.more-settings__button:focus {
-    color: var(--background-primary);
-    border: var(--text-primary) 0.1em solid;
-    background: var(--text-primary);
-    outline: none;
 }
 
 .more-settings__button-icon {
