@@ -6,6 +6,7 @@ A simple web app to practice React, inspired by [Koen Van Gilst](https://pong-wa
 
 Includes a number of settings and statistics for playing around with.
 
+## Development Setup
 This project uses [devenv.sh](https://devenv.sh) for development environment management.
 
 ### Prerequisites
